@@ -52,11 +52,11 @@ class InertiaEngine {
     }
     
     func stop() {
+        isRunningInternal = false  // 先にフラグOFF → 進行中フレームの guard で即リターン
+        velocity = .zero
         if let link = displayLink {
             CVDisplayLinkStop(link)
         }
-        isRunningInternal = false
-        velocity = .zero
     }
     
     private func update() {

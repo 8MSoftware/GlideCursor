@@ -32,12 +32,17 @@ class EventTapManager: ObservableObject {
     // Velocity History for Smoothing (Averaging)
     private var velocityHistory: [CGPoint] = []
     private let historySize = 5
+
+    // [Experimental] グライド停止タップのクリック抑止
+    private var stopTapPending = false
+    private var stopTapTime: TimeInterval = 0
     
     func start() {
         guard machPort == nil else { return }
         
         let eventMask = (1 << CGEventType.mouseMoved.rawValue) |
                         (1 << CGEventType.leftMouseDown.rawValue) |
+                        (1 << CGEventType.leftMouseUp.rawValue) |   // クリック抑止のペア確保
                         (1 << CGEventType.rightMouseDown.rawValue) |
                         (1 << CGEventType.scrollWheel.rawValue) |
                         (1 << CGEventType.leftMouseDragged.rawValue) |
@@ -98,6 +103,39 @@ class EventTapManager: ObservableObject {
             return Unmanaged.passUnretained(event)
         }
         
+        // [Experimental] グライド停止タップのクリック抑止
+        // leftMouseDown: グライド中なら stop して mouseDown を抑止、対応 mouseUp も抑止予約
+        if type == .leftMouseDown && InertiaEngine.shared.isRunning && settings.suppressClickOnStop {
+            InertiaEngine.shared.stop()
+            stopTapPending = true
+            stopTapTime = Date().timeIntervalSince1970
+            return nil
+        }
+        // leftMouseUp: stopTapPending が true なら mouseDown と対を揃えて抑止
+        // タイムアウト保険: 300ms 以上経過していたら mouseUp は通す（孤立を最小化）
+        if type == .leftMouseUp && stopTapPending {
+            stopTapPending = false
+            let elapsed = Date().timeIntervalSince1970 - stopTapTime
+            if elapsed < 0.3 {
+                return nil
+            }
+            // 300ms 超過 = 異常ケース。mouseUp は通してUIの整合を保つ
+        }
+
+        // Trackpad タッチ即停止:
+        // scrollWheel の mayBegin (32) は「指がパッドに触れた瞬間」に発火する。
+        // これにより、スクロールデルタが発生する前にグライドを停止できる。
+        // began (1) も同様に確実に拾う（念のため）。
+        if type == .scrollWheel && InertiaEngine.shared.isRunning {
+            // rawValue 132 = kCGScrollWheelEventScrollPhase (SDK 定数と名前が衝突するため直接指定)
+            // 32 = NSEvent.Phase.mayBegin, 1 = NSEvent.Phase.began
+            let phase: Int64 = event.getIntegerValueField(CGEventField(rawValue: 132)!)
+            if phase == 32 || phase == 1 {
+                InertiaEngine.shared.stop()
+                return Unmanaged.passUnretained(event)
+            }
+        }
+
         // Stop Inertia on interaction
         if type == .leftMouseDown || type == .rightMouseDown || type == .scrollWheel ||
            type == .leftMouseDragged || type == .rightMouseDragged || type == .otherMouseDragged ||

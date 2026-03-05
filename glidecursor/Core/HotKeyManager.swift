@@ -33,7 +33,7 @@ class HotKeyManager {
             let kCode = UInt32(keyCode)
             let mods = UInt32(modifiers)
             
-            var hotKeyID = EventHotKeyID(signature: OSType(0x474C4944), id: 1) // 'GLID'
+            let hotKeyID = EventHotKeyID(signature: OSType(0x474C4944), id: 1) // 'GLID'
             
             let status = RegisterEventHotKey(kCode, mods, hotKeyID, GetApplicationEventTarget(), 0, &hotKeyRef)
             if status != noErr {

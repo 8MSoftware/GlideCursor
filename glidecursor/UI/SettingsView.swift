@@ -148,6 +148,20 @@ struct SettingsView: View {
             
             Divider()
             
+            // Experimental
+            VStack(alignment: .leading, spacing: 6) {
+                Text("Experimental")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                Toggle("Suppress Click on Glide Stop", isOn: $settings.suppressClickOnStop)
+                    .toggleStyle(.switch)
+                Text("Prevents the tap that stops a glide from registering as a click. The first click after stopping may be lost.")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+            }
+
+            Divider()
+
             Button("Reset to Defaults") {
                 settings.resetToDefaults()
             }

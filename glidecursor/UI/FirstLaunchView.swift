@@ -28,6 +28,10 @@ struct FirstLaunchView: View {
                     Image(systemName: "hand.raised.fill").foregroundColor(.orange)
                     Text("Accessibility permissions are required to control the cursor.")
                 }
+                HStack {
+                    Image(systemName: "hand.point.up.left.fill").foregroundColor(.blue)
+                    Text("To stop gliding, place two fingers on the trackpad.")
+                }
             }
             .padding()
             .background(Color.gray.opacity(0.1))

@@ -59,6 +59,11 @@ class SettingsManager: ObservableObject {
     
     // Future proofing
     @Published var precisionEnabled: Bool = false
+
+    // Experimental
+    @Published var suppressClickOnStop: Bool {
+        didSet { UserDefaults.standard.set(suppressClickOnStop, forKey: "suppressClickOnStop") }
+    }
     
     private init() {
         self.isEnabled = UserDefaults.standard.bool(forKey: "isEnabled")
@@ -84,6 +89,7 @@ class SettingsManager: ObservableObject {
         }
         
         self.hasLaunchedBefore = UserDefaults.standard.bool(forKey: "hasLaunchedBefore")
+        self.suppressClickOnStop = UserDefaults.standard.bool(forKey: "suppressClickOnStop") // default false
         
         // Shortcut Defaults
         self.isGlobalShortcutEnabled = UserDefaults.standard.bool(forKey: "isGlobalShortcutEnabled")

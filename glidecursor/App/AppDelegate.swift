@@ -41,9 +41,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func showFirstLaunch() {
         let view = FirstLaunchView { [weak self] in
-            self?.firstLaunchWindow?.close()
             SettingsManager.shared.hasLaunchedBefore = true
-            self?.menuBarManager?.showPopover()
+            self?.menuBarManager?.showPopover()   // アプリがアクティブな間に popover を開く
+            DispatchQueue.main.async {
+                self?.firstLaunchWindow?.close()  // popover 表示後に window を閉じる
+            }
         }
         
         let window = NSWindow(
