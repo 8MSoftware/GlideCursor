@@ -18,6 +18,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         // Check First Launch
         if !SettingsManager.shared.hasLaunchedBefore {
+            // 初回は必ず OFF にする（前回テスト等で true が残っていても上書き）
+            SettingsManager.shared.isEnabled = false
             showFirstLaunch()
         }
         
@@ -28,9 +30,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func checkAccessibility() {
-        let options = [kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true]
+        // prompt: false = 権限状態を確認するだけでOSダイアログは出さない
+        let options = [kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: false]
         let accessEnabled = AXIsProcessTrustedWithOptions(options as CFDictionary)
-        
+
         if !accessEnabled {
             print("Accessibility not enabled")
         }
