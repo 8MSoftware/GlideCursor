@@ -27,7 +27,6 @@ class EventTapManager: ObservableObject {
     // Flick Detection
     private var lastEventTime: TimeInterval = 0
     private var lastLocation: CGPoint = .zero
-    private var currentVelocity: CGPoint = .zero
     
     // Velocity History for Smoothing (Averaging)
     private var velocityHistory: [CGPoint] = []
@@ -123,16 +122,16 @@ class EventTapManager: ObservableObject {
             }
             // 300ms 超過 = 異常ケース。mouseUp は通してUIの整合を保つ
         }
-        // 割り込み対策: 右クリック/ドラッグが来たら stopTapPending を強制クリア
+        // [Experimental] 割り込み対策: 右クリック/ドラッグが来たら stopTapPending を強制クリア
         // → 次の左クリックが消える事故を防ぐ
         if stopTapPending && (type == .rightMouseDown || type == .leftMouseDragged) {
             stopTapPending = false
         }
 
-        // Trackpad タッチ即停止:
-        // scrollWheel の mayBegin (32) は「指がパッドに触れた瞬間」に発火する。
-        // これにより、スクロールデルタが発生する前にグライドを停止できる。
-        // began (1) も同様に確実に拾う（念のため）。
+        // 2本指スクロール開始時の早期停止:
+        // mayBegin (32) = OS が 2 本指接触をスクロール候補と判定した時点で発火（スクロールデルタ発生前）。
+        // began (1)    = スクロール確定の第 1 フレーム。両方で止めることで最速の停止を実現する。
+        // ※ 1 本指ポインタ操作ではこのパスは通らない（公開 API 上の制約、仕様として確定）。
         if type == .scrollWheel && InertiaEngine.shared.isRunning {
             // rawValue 132 = kCGScrollWheelEventScrollPhase (SDK 定数と名前が衝突するため直接指定)
             // 32 = NSEvent.Phase.mayBegin, 1 = NSEvent.Phase.began
@@ -180,7 +179,9 @@ class EventTapManager: ObservableObject {
                 InertiaEngine.shared.stop()
             }
             
-            // DISABLE FILTERING FOR STABILITY
+            // TODO(Phase 2): デバイスフィルタリング
+            // CGEvent の subtype だけでは Magic Mouse / Trackpad を安定判別できないため無効化中。
+            // IOHIDManager デュアルタップ相関法（device name マッピング）で再実装予定。
             // let currentInfo = DeviceInfo(id: Int(deviceID), subtype: Int(subtype))
             // if !settings.enabledDevices.contains(currentInfo) {
             //    return Unmanaged.passUnretained(event)
@@ -196,16 +197,13 @@ class EventTapManager: ObservableObject {
                     let dx = location.x - lastLocation.x
                     let dy = location.y - lastLocation.y
                     let v = CGPoint(x: dx, y: dy)
-                    
+
                     // Add to history
                     velocityHistory.append(v)
                     if velocityHistory.count > historySize {
                         velocityHistory.removeFirst()
                     }
-                    
-                    currentVelocity = v // Keep current for immediate check, but use average for start
                 } else {
-                    currentVelocity = .zero
                     velocityHistory.removeAll()
                 }
             }
@@ -241,13 +239,11 @@ class EventTapManager: ObservableObject {
                     
                     if abs(avgVelocity.x) > velocityThreshold || abs(avgVelocity.y) > velocityThreshold {
                         InertiaEngine.shared.start(initialVelocity: avgVelocity)
-                        currentVelocity = .zero
                         velocityHistory.removeAll()
                     }
                 }
             }
         } else if timeSinceLastEvent > timeThreshold {
-            currentVelocity = .zero
             velocityHistory.removeAll()
         }
     }
