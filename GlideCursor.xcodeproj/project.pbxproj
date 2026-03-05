@@ -1,0 +1,548 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXContainerItemProxy section */
+		78A68EDA2EEFD96B00DA4EDB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 78A68EC02EEFD96800DA4EDB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 78A68EC72EEFD96800DA4EDB;
+			remoteInfo = glidecursor;
+		};
+		78A68EE42EEFD96B00DA4EDB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 78A68EC02EEFD96800DA4EDB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 78A68EC72EEFD96800DA4EDB;
+			remoteInfo = glidecursor;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		78A68EC82EEFD96800DA4EDB /* GlideCursor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GlideCursor.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		78A68ED92EEFD96B00DA4EDB /* GlideCursorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GlideCursorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		78A68EE32EEFD96B00DA4EDB /* GlideCursorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GlideCursorUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		78A68ECA2EEFD96800DA4EDB /* glidecursor */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = glidecursor;
+			sourceTree = "<group>";
+		};
+		78A68EDC2EEFD96B00DA4EDB /* glidecursorTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = glidecursorTests;
+			sourceTree = "<group>";
+		};
+		78A68EE62EEFD96B00DA4EDB /* glidecursorUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = glidecursorUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		78A68EC52EEFD96800DA4EDB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		78A68ED62EEFD96B00DA4EDB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		78A68EE02EEFD96B00DA4EDB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		78A68EBF2EEFD96800DA4EDB = {
+			isa = PBXGroup;
+			children = (
+				78A68ECA2EEFD96800DA4EDB /* glidecursor */,
+				78A68EDC2EEFD96B00DA4EDB /* glidecursorTests */,
+				78A68EE62EEFD96B00DA4EDB /* glidecursorUITests */,
+				78A68EC92EEFD96800DA4EDB /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		78A68EC92EEFD96800DA4EDB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				78A68EC82EEFD96800DA4EDB /* GlideCursor.app */,
+				78A68ED92EEFD96B00DA4EDB /* GlideCursorTests.xctest */,
+				78A68EE32EEFD96B00DA4EDB /* GlideCursorUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		78A68EC72EEFD96800DA4EDB /* GlideCursor */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 78A68EED2EEFD96B00DA4EDB /* Build configuration list for PBXNativeTarget "GlideCursor" */;
+			buildPhases = (
+				78A68EC42EEFD96800DA4EDB /* Sources */,
+				78A68EC52EEFD96800DA4EDB /* Frameworks */,
+				78A68EC62EEFD96800DA4EDB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				78A68ECA2EEFD96800DA4EDB /* glidecursor */,
+			);
+			name = GlideCursor;
+			packageProductDependencies = (
+			);
+			productName = glidecursor;
+			productReference = 78A68EC82EEFD96800DA4EDB /* GlideCursor.app */;
+			productType = "com.apple.product-type.application";
+		};
+		78A68ED82EEFD96B00DA4EDB /* GlideCursorTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 78A68EF02EEFD96B00DA4EDB /* Build configuration list for PBXNativeTarget "GlideCursorTests" */;
+			buildPhases = (
+				78A68ED52EEFD96B00DA4EDB /* Sources */,
+				78A68ED62EEFD96B00DA4EDB /* Frameworks */,
+				78A68ED72EEFD96B00DA4EDB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				78A68EDB2EEFD96B00DA4EDB /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				78A68EDC2EEFD96B00DA4EDB /* glidecursorTests */,
+			);
+			name = GlideCursorTests;
+			packageProductDependencies = (
+			);
+			productName = glidecursorTests;
+			productReference = 78A68ED92EEFD96B00DA4EDB /* GlideCursorTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		78A68EE22EEFD96B00DA4EDB /* GlideCursorUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 78A68EF32EEFD96B00DA4EDB /* Build configuration list for PBXNativeTarget "GlideCursorUITests" */;
+			buildPhases = (
+				78A68EDF2EEFD96B00DA4EDB /* Sources */,
+				78A68EE02EEFD96B00DA4EDB /* Frameworks */,
+				78A68EE12EEFD96B00DA4EDB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				78A68EE52EEFD96B00DA4EDB /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				78A68EE62EEFD96B00DA4EDB /* glidecursorUITests */,
+			);
+			name = GlideCursorUITests;
+			packageProductDependencies = (
+			);
+			productName = glidecursorUITests;
+			productReference = 78A68EE32EEFD96B00DA4EDB /* GlideCursorUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		78A68EC02EEFD96800DA4EDB /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1620;
+				LastUpgradeCheck = 1620;
+				TargetAttributes = {
+					78A68EC72EEFD96800DA4EDB = {
+						CreatedOnToolsVersion = 16.2;
+					};
+					78A68ED82EEFD96B00DA4EDB = {
+						CreatedOnToolsVersion = 16.2;
+						TestTargetID = 78A68EC72EEFD96800DA4EDB;
+					};
+					78A68EE22EEFD96B00DA4EDB = {
+						CreatedOnToolsVersion = 16.2;
+						TestTargetID = 78A68EC72EEFD96800DA4EDB;
+					};
+				};
+			};
+			buildConfigurationList = 78A68EC32EEFD96800DA4EDB /* Build configuration list for PBXProject "GlideCursor" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 78A68EBF2EEFD96800DA4EDB;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 78A68EC92EEFD96800DA4EDB /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				78A68EC72EEFD96800DA4EDB /* GlideCursor */,
+				78A68ED82EEFD96B00DA4EDB /* GlideCursorTests */,
+				78A68EE22EEFD96B00DA4EDB /* GlideCursorUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		78A68EC62EEFD96800DA4EDB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		78A68ED72EEFD96B00DA4EDB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		78A68EE12EEFD96B00DA4EDB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		78A68EC42EEFD96800DA4EDB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		78A68ED52EEFD96B00DA4EDB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		78A68EDF2EEFD96B00DA4EDB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		78A68EDB2EEFD96B00DA4EDB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 78A68EC72EEFD96800DA4EDB /* GlideCursor */;
+			targetProxy = 78A68EDA2EEFD96B00DA4EDB /* PBXContainerItemProxy */;
+		};
+		78A68EE52EEFD96B00DA4EDB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 78A68EC72EEFD96800DA4EDB /* GlideCursor */;
+			targetProxy = 78A68EE42EEFD96B00DA4EDB /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		78A68EEB2EEFD96B00DA4EDB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		78A68EEC2EEFD96B00DA4EDB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		78A68EEE2EEFD96B00DA4EDB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = glidecursor/glidecursor.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"glidecursor/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = jp.yaoyorozu.glidecursor;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		78A68EEF2EEFD96B00DA4EDB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = glidecursor/glidecursor.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"glidecursor/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = jp.yaoyorozu.glidecursor;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		78A68EF12EEFD96B00DA4EDB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = jp.yaoyorozu.glidecursorTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GlideCursor.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/GlideCursor";
+			};
+			name = Debug;
+		};
+		78A68EF22EEFD96B00DA4EDB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = jp.yaoyorozu.glidecursorTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GlideCursor.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/GlideCursor";
+			};
+			name = Release;
+		};
+		78A68EF42EEFD96B00DA4EDB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = jp.yaoyorozu.glidecursorUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = glidecursor;
+			};
+			name = Debug;
+		};
+		78A68EF52EEFD96B00DA4EDB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = jp.yaoyorozu.glidecursorUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = glidecursor;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		78A68EC32EEFD96800DA4EDB /* Build configuration list for PBXProject "GlideCursor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				78A68EEB2EEFD96B00DA4EDB /* Debug */,
+				78A68EEC2EEFD96B00DA4EDB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		78A68EED2EEFD96B00DA4EDB /* Build configuration list for PBXNativeTarget "GlideCursor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				78A68EEE2EEFD96B00DA4EDB /* Debug */,
+				78A68EEF2EEFD96B00DA4EDB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		78A68EF02EEFD96B00DA4EDB /* Build configuration list for PBXNativeTarget "GlideCursorTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				78A68EF12EEFD96B00DA4EDB /* Debug */,
+				78A68EF22EEFD96B00DA4EDB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		78A68EF32EEFD96B00DA4EDB /* Build configuration list for PBXNativeTarget "GlideCursorUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				78A68EF42EEFD96B00DA4EDB /* Debug */,
+				78A68EF52EEFD96B00DA4EDB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 78A68EC02EEFD96800DA4EDB /* Project object */;
+}
