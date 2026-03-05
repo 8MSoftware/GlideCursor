@@ -6,6 +6,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var firstLaunchWindow: NSWindow?
     
     func applicationDidFinishLaunching(_ notification: Notification) {
+        // 多重起動防止: 同一 bundle ID のプロセスが既に存在すれば前面化して即終了
+        let bundleID = Bundle.main.bundleIdentifier ?? ""
+        let others = NSRunningApplication.runningApplications(withBundleIdentifier: bundleID)
+            .filter { $0.processIdentifier != ProcessInfo.processInfo.processIdentifier }
+        if !others.isEmpty {
+            others.first?.activate(options: .activateIgnoringOtherApps)
+            NSApp.terminate(nil)
+            return
+        }
+
         // Check Accessibility Permissions
         checkAccessibility()
         
