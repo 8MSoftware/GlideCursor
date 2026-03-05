@@ -39,6 +39,7 @@ class EventTapManager: ObservableObject {
     
     func start() {
         guard machPort == nil else { return }
+        stopTapPending = false  // EventTap 開始/再起動時はフラグをリセット
         
         let eventMask = (1 << CGEventType.mouseMoved.rawValue) |
                         (1 << CGEventType.leftMouseDown.rawValue) |
@@ -82,6 +83,7 @@ class EventTapManager: ObservableObject {
         
         watchdogTimer?.invalidate()
         watchdogTimer = nil
+        stopTapPending = false  // EventTap 停止時はフラグをリセット
     }
     
     func handleEvent(type: CGEventType, event: CGEvent) -> Unmanaged<CGEvent>? {
@@ -120,6 +122,11 @@ class EventTapManager: ObservableObject {
                 return nil
             }
             // 300ms 超過 = 異常ケース。mouseUp は通してUIの整合を保つ
+        }
+        // 割り込み対策: 右クリック/ドラッグが来たら stopTapPending を強制クリア
+        // → 次の左クリックが消える事故を防ぐ
+        if stopTapPending && (type == .rightMouseDown || type == .leftMouseDragged) {
+            stopTapPending = false
         }
 
         // Trackpad タッチ即停止:
@@ -210,6 +217,12 @@ class EventTapManager: ObservableObject {
         return Unmanaged.passUnretained(event)
     }
     
+    /// アプリ非アクティブ化・スリープ等でフラグを外部からクリアするためのメソッド
+    func resetStopTapState() {
+        stopTapPending = false
+        stopTapTime = 0
+    }
+
     private func checkFlick() {
         let now = Date().timeIntervalSince1970
         let timeSinceLastEvent = now - lastEventTime

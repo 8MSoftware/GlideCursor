@@ -27,8 +27,27 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if SettingsManager.shared.isEnabled {
             EventTapManager.shared.start()
         }
+
+        // スリープ直前にフラグをクリア（安全策）
+        NSWorkspace.shared.notificationCenter.addObserver(
+            self,
+            selector: #selector(handleWillSleep),
+            name: NSWorkspace.willSleepNotification,
+            object: nil
+        )
     }
     
+    func applicationDidResignActive(_ notification: Notification) {
+        // Cmd+Tab などでアプリが非アクティブになったときにフラグをクリア
+        EventTapManager.shared.resetStopTapState()
+    }
+
+    @objc func handleWillSleep(_ notification: Notification) {
+        // スリープ直前にグライドを止め、フラグをクリア
+        InertiaEngine.shared.stop()
+        EventTapManager.shared.resetStopTapState()
+    }
+
     func checkAccessibility() {
         // prompt: false = 権限状態を確認するだけでOSダイアログは出さない
         let options = [kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: false]
