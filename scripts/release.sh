@@ -10,7 +10,6 @@ cd "$(dirname "$0")/.."
 VERSION=${1:?version を指定してください（例: 2.0）}
 PROFILE=${2:-notary}
 TEAM=BSUN46UA74
-export COPYFILE_DISABLE=1   # .pkg に ._ ファイルを入れない
 export DEVELOPER_DIR=${DEVELOPER_DIR:-/Applications/Xcode.app/Contents/Developer}
 
 BUILD=build/release
