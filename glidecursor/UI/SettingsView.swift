@@ -171,7 +171,7 @@ struct SettingsView: View {
         .onAppear { launchAtLogin = LaunchAtLogin.isEnabled }
     }
 
-    private static let websiteURL = URL(string: "https://yaoyorozu-software.com/glidecursor/")!
+    private static let websiteURL = URL(string: "https://glidecursor.8m-software.com/")!
 
     private func slider(_ title: LocalizedStringKey, value: Binding<Double>, in range: ClosedRange<Double>, step: Double,
                         format: String, note: LocalizedStringKey) -> some View {
