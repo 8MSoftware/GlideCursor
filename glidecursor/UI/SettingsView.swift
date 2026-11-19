@@ -48,7 +48,7 @@ struct SettingsView: View {
             VStack(alignment: .leading, spacing: 6) {
                 Text("Glide on these devices").font(.subheadline).foregroundColor(.secondary)
                 if registry.devices.isEmpty {
-                    Text(settings.isEnabled ? "Move the cursor to detect devices…" : "Turn GlideCursor on to detect devices.")
+                    Text(settings.isEnabled ? LocalizedStringKey("Move the cursor to detect devices…") : LocalizedStringKey("Turn GlideCursor on to detect devices."))
                         .font(.caption)
                         .foregroundColor(.secondary)
                 } else {
@@ -146,13 +146,13 @@ struct SettingsView: View {
         .frame(width: 320)
     }
 
-    private func slider(_ title: String, value: Binding<Double>, in range: ClosedRange<Double>, step: Double,
-                        format: String, note: String) -> some View {
+    private func slider(_ title: LocalizedStringKey, value: Binding<Double>, in range: ClosedRange<Double>, step: Double,
+                        format: String, note: LocalizedStringKey) -> some View {
         VStack(alignment: .leading, spacing: 2) {
             HStack {
                 Text(title)
                 Spacer()
-                Text(format).monospacedDigit().foregroundColor(.secondary)
+                Text(verbatim: format).monospacedDigit().foregroundColor(.secondary)
             }
             Slider(value: value, in: range, step: step)
             Text(note).font(.caption).foregroundColor(.secondary)

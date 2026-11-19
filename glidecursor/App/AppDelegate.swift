@@ -67,7 +67,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             styleMask: [.titled, .closable, .fullSizeContentView],
             backing: .buffered, defer: false)
         window.center()
-        window.title = "Welcome to GlideCursor"
+        window.title = String(localized: "Welcome to GlideCursor")
         window.contentView = NSHostingView(rootView: view)
         window.makeKeyAndOrderFront(nil)
         window.isReleasedWhenClosed = false

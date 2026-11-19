@@ -1,0 +1,316 @@
+{
+  "sourceLanguage": "en",
+  "version": "1.0",
+  "strings": {
+    "Glide on these devices": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "慣性を使うデバイス"
+          }
+        }
+      }
+    },
+    "Move the cursor to detect devices…": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "カーソルを動かすと、デバイスが表示されます…"
+          }
+        }
+      }
+    },
+    "Turn GlideCursor on to detect devices.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GlideCursor をオンにすると、デバイスが表示されます。"
+          }
+        }
+      }
+    },
+    "Not connected": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未接続"
+          }
+        }
+      }
+    },
+    "Accessibility permission is needed. GlideCursor can't see or move the cursor until it is allowed.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アクセシビリティの許可が必要です。許可されるまで、GlideCursor はカーソルの動きを受け取れず、動かすこともできません。"
+          }
+        }
+      }
+    },
+    "Open Accessibility Settings": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アクセシビリティ設定を開く"
+          }
+        }
+      }
+    },
+    "If GlideCursor is already listed and on, remove it with − and add it again.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "一覧に GlideCursor がオンで載っている場合は、「−」で一覧から消してから追加し直してください。"
+          }
+        }
+      }
+    },
+    "Touch detection is unavailable on this macOS version. Gliding is disabled.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "この macOS ではタッチを検出できないため、慣性は使えません。"
+          }
+        }
+      }
+    },
+    "Glide length": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "滑る長さ"
+          }
+        }
+      }
+    },
+    "How long the cursor keeps gliding after you lift your finger.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "指を離したあと、カーソルが滑り続ける長さです。"
+          }
+        }
+      }
+    },
+    "Speed": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "速さ"
+          }
+        }
+      }
+    },
+    "Multiplies the speed at the moment you lift your finger.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "指を離した瞬間の速さに掛ける倍率です。"
+          }
+        }
+      }
+    },
+    "Flick threshold": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "弾きのしきい値"
+          }
+        }
+      }
+    },
+    "Lifting slower than this does not glide. Lower = easier to trigger.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "これより遅く離したときは滑りません。小さいほど滑り出しやすくなります。"
+          }
+        }
+      }
+    },
+    "Max speed": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "最高速度"
+          }
+        }
+      }
+    },
+    "Caps the starting speed of a glide.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "滑り始めの速さの上限です。"
+          }
+        }
+      }
+    },
+    "Ignore the tap that stops a glide": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "止めるためのタップをクリックにしない"
+          }
+        }
+      }
+    },
+    "With tap to click, touching the trackpad to stop a glide won't also click.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "「タップでクリック」を使っているとき、滑っているカーソルを止めるために触れても、クリックになりません。"
+          }
+        }
+      }
+    },
+    "Global Shortcut": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "グローバルショートカット"
+          }
+        }
+      }
+    },
+    "Press Key…": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "キーを押してください…"
+          }
+        }
+      }
+    },
+    "Change": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "変更"
+          }
+        }
+      }
+    },
+    "Reset to Defaults": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "初期値に戻す"
+          }
+        }
+      }
+    },
+    "Website": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Web サイト"
+          }
+        }
+      }
+    },
+    "Quit": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "終了"
+          }
+        }
+      }
+    },
+    "Welcome to GlideCursor": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GlideCursor へようこそ"
+          }
+        }
+      }
+    },
+    "GlideCursor is currently OFF": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GlideCursor は現在オフです"
+          }
+        }
+      }
+    },
+    "To enable, click the menu bar icon and turn GlideCursor on.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使うには、メニューバーのアイコンをクリックして、GlideCursor をオンにしてください。"
+          }
+        }
+      }
+    },
+    "Accessibility permissions are required to control the cursor.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "カーソルを動かすには、アクセシビリティの許可が必要です。"
+          }
+        }
+      }
+    },
+    "Flick and lift to glide. Touch the trackpad to stop.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "弾いて指を離すと滑ります。トラックパッドに触れると止まります。"
+          }
+        }
+      }
+    },
+    "Open System Settings": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "システム設定を開く"
+          }
+        }
+      }
+    },
+    "Get Started": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "始める"
+          }
+        }
+      }
+    }
+  }
+}
