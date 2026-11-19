@@ -63,7 +63,12 @@ final class SettingsManager: ObservableObject {
 
     func setEnabled(_ on: Bool) {
         isEnabled = on
-        if on { GlideController.shared.start() } else { GlideController.shared.stop() }
+        if on {
+            Permissions.requestAccessibilityIfNeeded()
+            GlideController.shared.start()
+        } else {
+            GlideController.shared.stop()
+        }
     }
 
     func isDeviceEnabled(_ device: GlideDevice) -> Bool {

@@ -10,10 +10,14 @@ private let log = Logger(subsystem: "jp.yaoyorozu.glidecursor", category: "glide
 /// - 指が触れた瞬間（MT の touch down）に慣性を止める
 /// - 慣性を止めるためのタップ（tap to click）が生んだクリックは捨てる
 /// - 慣性を出すかどうかはデバイスごとの設定に従う
-final class GlideController: MultitouchDelegate {
+final class GlideController: ObservableObject, MultitouchDelegate {
     static let shared = GlideController()
 
-    private var machPort: CFMachPort?
+    private var machPort: CFMachPort? {
+        didSet { if tapRunning != (machPort != nil) { tapRunning = machPort != nil } }
+    }
+    /// イベントタップが動いているか（アクセシビリティ権限がないと false のまま）
+    @Published private(set) var tapRunning = false
     private var runLoopSource: CFRunLoopSource?
     private var isActive = false
 
@@ -125,9 +129,10 @@ final class GlideController: MultitouchDelegate {
         let mask = types.reduce(CGEventMask(0)) { $0 | (1 << $1.rawValue) }
         guard let port = CGEvent.tapCreate(tap: .cghidEventTap, place: .headInsertEventTap, options: .defaultTap,
                                            eventsOfInterest: mask, callback: tapCallback, userInfo: nil) else {
-            NSLog("GlideCursor: event tap を作れない（アクセシビリティ権限が必要）")
+            log.error("event tap could not be created (Accessibility permission is missing)")
             return
         }
+        log.info("event tap started")
         machPort = port
         runLoopSource = CFMachPortCreateRunLoopSource(kCFAllocatorDefault, port, 0)
         CFRunLoopAddSource(CFRunLoopGetMain(), runLoopSource, .commonModes)
@@ -140,9 +145,6 @@ final class GlideController: MultitouchDelegate {
         machPort = nil
         runLoopSource = nil
     }
-
-    /// タップが動いているか（アクセシビリティ権限がなければ false）
-    var isTapRunning: Bool { machPort != nil }
 
     /// 権限が後から与えられたときに作り直す
     func retryTapIfNeeded() {

@@ -3,6 +3,7 @@ import SwiftUI
 struct SettingsView: View {
     @ObservedObject var settings = SettingsManager.shared
     @ObservedObject var registry = DeviceRegistry.shared
+    @ObservedObject var glide = GlideController.shared
     @State private var isRecording = false
     @State private var keyMonitor: Any?
 
@@ -15,6 +16,23 @@ struct SettingsView: View {
                 Toggle("", isOn: Binding(get: { settings.isEnabled }, set: { settings.setEnabled($0) }))
                     .toggleStyle(.switch)
                     .labelsHidden()
+            }
+
+            if settings.isEnabled && !glide.tapRunning {
+                VStack(alignment: .leading, spacing: 6) {
+                    Label("Accessibility permission is needed. GlideCursor can't see or move the cursor until it is allowed.",
+                          systemImage: "lock.fill")
+                        .font(.caption)
+                        .foregroundColor(.orange)
+                    Button("Open Accessibility Settings") {
+                        Permissions.requestAccessibilityIfNeeded()
+                        Permissions.openAccessibilitySettings()
+                    }
+                    .font(.caption)
+                    Text("If GlideCursor is already listed and on, remove it with − and add it again.")
+                        .font(.caption2)
+                        .foregroundColor(.secondary)
+                }
             }
 
             if !GlideController.shared.multitouchAvailable {

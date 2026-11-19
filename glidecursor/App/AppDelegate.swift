@@ -27,6 +27,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         if settings.isEnabled {
+            Permissions.requestAccessibilityIfNeeded()
             GlideController.shared.start()
         }
         watchAccessibility()
@@ -48,7 +49,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     /// アクセシビリティ権限が後から与えられたら、イベントタップを作り直す
     private func watchAccessibility() {
         permissionTimer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true) { _ in
-            if AXIsProcessTrusted() { GlideController.shared.retryTapIfNeeded() }
+            if Permissions.accessibilityGranted { GlideController.shared.retryTapIfNeeded() }
         }
     }
 
