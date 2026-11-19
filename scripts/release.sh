@@ -19,7 +19,7 @@ rm -rf "$BUILD" && mkdir -p "$BUILD" "$DIST"
 echo "== build $VERSION"
 xcodebuild -project GlideCursor.xcodeproj -target GlideCursor -configuration Release SYMROOT="$BUILD" \
   CODE_SIGN_STYLE=Manual CODE_SIGN_IDENTITY="Developer ID Application" DEVELOPMENT_TEAM=$TEAM \
-  ENABLE_HARDENED_RUNTIME=YES OTHER_CODE_SIGN_FLAGS=--timestamp \
+  ENABLE_HARDENED_RUNTIME=YES OTHER_CODE_SIGN_FLAGS=--timestamp CODE_SIGN_INJECT_BASE_ENTITLEMENTS=NO \
   MARKETING_VERSION="$VERSION" CURRENT_PROJECT_VERSION="$(git rev-list --count HEAD)" \
   build | grep -E "error|BUILD"
 APP="$BUILD/Release/GlideCursor.app"
