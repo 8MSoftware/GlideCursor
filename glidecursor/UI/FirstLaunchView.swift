@@ -22,7 +22,7 @@ struct FirstLaunchView: View {
                 }
                 HStack {
                     Image(systemName: "checkmark.circle.fill").foregroundColor(.green)
-                    Text("To enable, click the menu bar icon and select 'Enable This Device'.")
+                    Text("To enable, click the menu bar icon and turn GlideCursor on.")
                 }
                 HStack {
                     Image(systemName: "hand.raised.fill").foregroundColor(.orange)
@@ -30,7 +30,7 @@ struct FirstLaunchView: View {
                 }
                 HStack {
                     Image(systemName: "hand.point.up.left.fill").foregroundColor(.blue)
-                    Text("To stop gliding, place two fingers on the trackpad.")
+                    Text("Flick and lift to glide. Touch the trackpad to stop.")
                 }
             }
             .padding()
