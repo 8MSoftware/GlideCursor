@@ -4,7 +4,8 @@ import SwiftUI
 class AppDelegate: NSObject, NSApplicationDelegate {
     var menuBarManager: MenuBarManager?
     var firstLaunchWindow: NSWindow?
-    
+    private var permissionTimer: Timer?
+
     func applicationDidFinishLaunching(_ notification: Notification) {
         // 多重起動防止: 同一 bundle ID のプロセスが既に存在すれば前面化して即終了
         let bundleID = Bundle.main.bundleIdentifier ?? ""
@@ -16,58 +17,42 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             return
         }
 
-        // Check Accessibility Permissions
-        checkAccessibility()
-        
-        // Initialize Managers
-        _ = SettingsManager.shared
-        _ = EventTapManager.shared
-        
-        // Setup Menu Bar
+        let settings = SettingsManager.shared
+        _ = DeviceRegistry.shared
         menuBarManager = MenuBarManager()
-        
-        // Check First Launch
-        if !SettingsManager.shared.hasLaunchedBefore {
-            // 初回は必ず OFF にする（前回テスト等で true が残っていても上書き）
-            SettingsManager.shared.isEnabled = false
+
+        if !settings.hasLaunchedBefore {
+            settings.isEnabled = false   // 初回は必ず OFF
             showFirstLaunch()
         }
-        
-        // Start Event Tap if enabled
-        if SettingsManager.shared.isEnabled {
-            EventTapManager.shared.start()
-        }
 
-        // スリープ直前にフラグをクリア（安全策）
-        NSWorkspace.shared.notificationCenter.addObserver(
-            self,
-            selector: #selector(handleWillSleep),
-            name: NSWorkspace.willSleepNotification,
-            object: nil
-        )
-    }
-    
-    func applicationDidResignActive(_ notification: Notification) {
-        // Cmd+Tab などでアプリが非アクティブになったときにフラグをクリア
-        EventTapManager.shared.resetStopTapState()
+        if settings.isEnabled {
+            Permissions.requestAccessibilityIfNeeded()
+            GlideController.shared.start()
+        }
+        watchAccessibility()
+
+        let ws = NSWorkspace.shared.notificationCenter
+        ws.addObserver(self, selector: #selector(handleWillSleep), name: NSWorkspace.willSleepNotification, object: nil)
+        ws.addObserver(self, selector: #selector(handleDidWake), name: NSWorkspace.didWakeNotification, object: nil)
     }
 
     @objc func handleWillSleep(_ notification: Notification) {
-        // スリープ直前にグライドを止め、フラグをクリア
         InertiaEngine.shared.stop()
-        EventTapManager.shared.resetStopTapState()
     }
 
-    func checkAccessibility() {
-        // prompt: false = 権限状態を確認するだけでOSダイアログは出さない
-        let options = [kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: false]
-        let accessEnabled = AXIsProcessTrustedWithOptions(options as CFDictionary)
+    @objc func handleDidWake(_ notification: Notification) {
+        // スリープ後は MT デバイスからフレームが届かなくなることがあるので取り直す
+        GlideController.shared.refreshDevices()
+    }
 
-        if !accessEnabled {
-            print("Accessibility not enabled")
+    /// アクセシビリティ権限が後から与えられたら、イベントタップを作り直す
+    private func watchAccessibility() {
+        permissionTimer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true) { _ in
+            if Permissions.accessibilityGranted { GlideController.shared.retryTapIfNeeded() }
         }
     }
-    
+
     func showFirstLaunch() {
         let view = FirstLaunchView { [weak self] in
             SettingsManager.shared.hasLaunchedBefore = true
@@ -76,18 +61,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 self?.firstLaunchWindow?.close()  // popover 表示後に window を閉じる
             }
         }
-        
+
         let window = NSWindow(
             contentRect: NSRect(x: 0, y: 0, width: 600, height: 600),
             styleMask: [.titled, .closable, .fullSizeContentView],
             backing: .buffered, defer: false)
         window.center()
-        window.title = "Welcome to GlideCursor"
+        window.title = String(localized: "Welcome to GlideCursor")
         window.contentView = NSHostingView(rootView: view)
         window.makeKeyAndOrderFront(nil)
         window.isReleasedWhenClosed = false
         self.firstLaunchWindow = window
-        
+
         NSApp.activate(ignoringOtherApps: true)
     }
 }

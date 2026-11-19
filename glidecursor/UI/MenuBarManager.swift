@@ -19,10 +19,11 @@ class MenuBarManager: NSObject {
             button.target = self
         }
 
-        popover.contentSize = NSSize(width: 300, height: 450)
         popover.behavior = .transient
         popover.delegate = self
-        popover.contentViewController = NSHostingController(rootView: SettingsView())
+        let host = NSHostingController(rootView: SettingsView())
+        host.sizingOptions = .preferredContentSize   // 設定画面の高さに合わせる
+        popover.contentViewController = host
     }
 
     @objc func togglePopover(_ sender: Any?) {
