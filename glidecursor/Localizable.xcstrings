@@ -232,16 +232,6 @@
         }
       }
     },
-    "Quit": {
-      "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "終了"
-          }
-        }
-      }
-    },
     "Welcome to GlideCursor": {
       "localizations": {
         "ja": {
@@ -308,6 +298,46 @@
           "stringUnit": {
             "state": "translated",
             "value": "始める"
+          }
+        }
+      }
+    },
+    "Language": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "言語"
+          }
+        }
+      }
+    },
+    "System Default": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "システムの設定に従う"
+          }
+        }
+      }
+    },
+    "Open at Login": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ログイン時に開く"
+          }
+        }
+      }
+    },
+    "Quit GlideCursor": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GlideCursor を終了"
           }
         }
       }

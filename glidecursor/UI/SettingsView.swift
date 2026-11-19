@@ -6,6 +6,7 @@ struct SettingsView: View {
     @ObservedObject var glide = GlideController.shared
     @State private var isRecording = false
     @State private var keyMonitor: Any?
+    @State private var launchAtLogin = LaunchAtLogin.isEnabled
 
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
@@ -135,16 +136,42 @@ struct SettingsView: View {
 
             HStack {
                 Button("Reset to Defaults") { settings.resetToDefaults() }
+                    .font(.caption)
                 Spacer()
-                Link("Website", destination: URL(string: "https://yaoyorozu-software.com/glidecursor/")!)
-                Spacer()
-                Button("Quit") { NSApplication.shared.terminate(nil) }
+                appMenu
             }
-            .font(.caption)
         }
         .padding()
         .frame(width: 320)
     }
+
+    /// 歯車ボタンのメニュー：言語・ログイン時に開く・Web サイト・終了
+    private var appMenu: some View {
+        Menu {
+            Picker("Language", selection: Binding(get: { AppLanguage.current }, set: { $0.apply() })) {
+                Text("System Default").tag(AppLanguage.system)
+                Text(verbatim: "日本語").tag(AppLanguage.ja)
+                Text(verbatim: "English").tag(AppLanguage.en)
+            }
+            .pickerStyle(.menu)
+            Toggle("Open at Login", isOn: Binding(get: { launchAtLogin }, set: {
+                LaunchAtLogin.set($0)
+                launchAtLogin = LaunchAtLogin.isEnabled
+            }))
+            Divider()
+            Button("Website") { NSWorkspace.shared.open(Self.websiteURL) }
+            Divider()
+            Button("Quit GlideCursor") { NSApplication.shared.terminate(nil) }
+        } label: {
+            Image(systemName: "gearshape")
+        }
+        .menuStyle(.borderlessButton)
+        .menuIndicator(.hidden)
+        .fixedSize()
+        .onAppear { launchAtLogin = LaunchAtLogin.isEnabled }
+    }
+
+    private static let websiteURL = URL(string: "https://yaoyorozu-software.com/glidecursor/")!
 
     private func slider(_ title: LocalizedStringKey, value: Binding<Double>, in range: ClosedRange<Double>, step: Double,
                         format: String, note: LocalizedStringKey) -> some View {
