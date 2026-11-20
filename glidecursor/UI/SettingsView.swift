@@ -159,6 +159,7 @@ struct SettingsView: View {
                 launchAtLogin = LaunchAtLogin.isEnabled
             }))
             Divider()
+            Button("Donate…") { Donation.open() }
             Button("Website") { NSWorkspace.shared.open(Self.websiteURL) }
             Divider()
             Button("Quit GlideCursor") { NSApplication.shared.terminate(nil) }

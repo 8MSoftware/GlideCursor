@@ -64,6 +64,8 @@ enum ScreenshotMode {
 
     static func apply(menuBar: MenuBarManager?) {
         guard isOn else { return }
+        // -GCDonation YES: 寄付のお願いのウィンドウを撮る(ポップオーバーは開かない)
+        if UserDefaults.standard.bool(forKey: "GCDonation") { return }
         let look: NSAppearance? = switch appearance {
         case "dark": NSAppearance(named: .darkAqua)
         case "light": NSAppearance(named: .aqua)
@@ -94,7 +96,7 @@ enum ScreenshotMode {
     }
 
     /// 自分のウィンドウの中身を、画面の倍率のまま PNG にする(画面収録の許可は要らない)
-    private static func save(_ view: NSView, to path: String) {
+    static func save(_ view: NSView, to path: String) {
         guard let rep = view.bitmapImageRepForCachingDisplay(in: view.bounds) else { return }
         view.cacheDisplay(in: view.bounds, to: rep)
         try? rep.representation(using: .png, properties: [:])?.write(to: URL(fileURLWithPath: path))

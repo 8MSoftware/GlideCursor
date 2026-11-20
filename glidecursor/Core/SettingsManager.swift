@@ -26,6 +26,11 @@ final class SettingsManager: ObservableObject {
 
     @Published var hasLaunchedBefore: Bool { didSet { d.set(hasLaunchedBefore, forKey: "hasLaunchedBefore") } }
 
+    /// 起動した回数(寄付のお願いを2回目から出すため)
+    @Published var launchCount: Int { didSet { d.set(launchCount, forKey: "v2.launchCount") } }
+    /// 寄付のお願いで「今後は表示しない」を選んだ
+    @Published var donationPromptDismissed: Bool { didSet { d.set(donationPromptDismissed, forKey: "v2.donationPromptDismissed") } }
+
     // Global Shortcut
     @Published var isGlobalShortcutEnabled: Bool {
         didSet { d.set(isGlobalShortcutEnabled, forKey: "isGlobalShortcutEnabled"); updateHotKey() }
@@ -48,6 +53,8 @@ final class SettingsManager: ObservableObject {
         deviceEnabled = (d.dictionary(forKey: "v2.deviceEnabled") as? [String: Bool]) ?? [:]
         suppressClickOnStop = d.object(forKey: "v2.suppressClickOnStop") == nil ? true : d.bool(forKey: "v2.suppressClickOnStop")
         hasLaunchedBefore = d.bool(forKey: "hasLaunchedBefore")
+        launchCount = d.integer(forKey: "v2.launchCount")
+        donationPromptDismissed = d.bool(forKey: "v2.donationPromptDismissed")
         isGlobalShortcutEnabled = d.bool(forKey: "isGlobalShortcutEnabled")
         globalShortcutKeyCode = d.object(forKey: "globalShortcutKeyCode") == nil ? 5 : d.integer(forKey: "globalShortcutKeyCode")       // G
         globalShortcutModifiers = d.object(forKey: "globalShortcutModifiers") == nil ? 4096 : d.integer(forKey: "globalShortcutModifiers") // ⌃

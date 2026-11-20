@@ -341,6 +341,96 @@
           }
         }
       }
+    },
+    "Thank you!": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ありがとうございます!"
+          }
+        }
+      }
+    },
+    "You can donate any time from the gear menu in the settings. If you like GlideCursor, we'd be glad of your support!": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "設定の歯車のメニューから、いつでも寄付できます。気に入ったら、応援よろしくお願いします!"
+          }
+        }
+      }
+    },
+    "GlideCursor is free": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GlideCursor は無料です"
+          }
+        }
+      }
+    },
+    "If GlideCursor fits the way you work, a donation would help keep it going and working with future versions of macOS.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "手になじんだら、寄付で応援していただけるとうれしいです。いただいた寄付は、開発を続け、新しい macOS に対応するために使います。"
+          }
+        }
+      }
+    },
+    "Close": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "閉じる"
+          }
+        }
+      }
+    },
+    "Donate": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "寄付する"
+          }
+        }
+      }
+    },
+    "Donate…": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "寄付する…"
+          }
+        }
+      }
+    },
+    "Don't show this again": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "今後は表示しない"
+          }
+        }
+      }
+    },
+    "OK": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OK"
+          }
+        }
+      }
     }
   }
 }

@@ -27,6 +27,22 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             showFirstLaunch()
         }
 
+        #if DEBUG
+        if ScreenshotMode.isOn, UserDefaults.standard.bool(forKey: "GCDonation"), let path = UserDefaults.standard.string(forKey: "GCShotPath") {
+            if UserDefaults.standard.string(forKey: "GCAppearance") == "light" { NSApp.appearance = NSAppearance(named: .aqua) }
+            showDonation()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { [weak self] in
+                if let v = self?.donationWindow?.contentView?.superview { ScreenshotMode.save(v, to: path) }
+                NSApp.terminate(nil)
+            }
+            return
+        }
+        #endif
+        settings.launchCount += 1
+        if settings.launchCount >= 2 && !settings.donationPromptDismissed && !ScreenshotMode.isOn {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { [weak self] in self?.showDonation() }
+        }
+
         if settings.isEnabled {
             Permissions.requestAccessibilityIfNeeded()
             GlideController.shared.start()
@@ -52,6 +68,20 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         permissionTimer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true) { _ in
             if Permissions.accessibilityGranted { GlideController.shared.retryTapIfNeeded() }
         }
+    }
+
+    private var donationWindow: NSWindow?
+
+    func showDonation() {
+        let view = DonationView { [weak self] in self?.donationWindow?.close() }
+        let window = NSWindow(contentRect: .zero, styleMask: [.titled, .closable], backing: .buffered, defer: false)
+        window.title = "GlideCursor"
+        window.contentView = NSHostingView(rootView: view)
+        window.isReleasedWhenClosed = false
+        window.center()
+        donationWindow = window
+        window.makeKeyAndOrderFront(nil)
+        NSApp.activate()
     }
 
     func showFirstLaunch() {
