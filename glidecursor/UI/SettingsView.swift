@@ -156,44 +156,67 @@ struct SettingsView: View {
 
                 Divider()
 
-                VStack(alignment: .leading, spacing: 8) {
+                VStack(alignment: .leading, spacing: 10) {
                     Text("How to start").font(.subheadline).foregroundColor(.secondary)
-                    Picker("", selection: $settings.precisionTrigger) {
-                        Text("Keyboard shortcut").tag(SettingsManager.PrecisionTrigger.shortcut)
-                        Text("Double-tap and hold").tag(SettingsManager.PrecisionTrigger.hold)
-                    }
-                    .pickerStyle(.radioGroup)
-                    .labelsHidden()
-                }
 
-                switch settings.precisionTrigger {
-                case .shortcut:
-                    shortcutRow("Shortcut", enabled: nil, keyCode: settings.precisionKeyCode,
-                                modifiers: settings.precisionModifiers, precision: true)
-                    Text("Press it once to start, and again to leave.")
-                        .font(.caption).foregroundColor(.secondary)
-                case .hold:
-                    slider("Hold for", value: $settings.precisionHoldDelay, in: 0...3, step: 0.1,
-                           format: String(format: "%.1f s", settings.precisionHoldDelay),
-                           note: "Double-tap, keep your finger down for this long, and precision mode starts. Lift to leave.")
-                    Label("If you use double-tap to drag (Dragging or Drag Lock in the trackpad settings), the two clash. Use the keyboard shortcut instead. With tap to click, the first tap also clicks.",
-                          systemImage: "exclamationmark.triangle")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                        .fixedSize(horizontal: false, vertical: true)
+                    Toggle("Keyboard shortcut", isOn: $settings.precisionUseShortcut).toggleStyle(.checkbox)
+                    if settings.precisionUseShortcut {
+                        VStack(alignment: .leading, spacing: 4) {
+                            shortcutRow(nil, enabled: nil, keyCode: settings.precisionKeyCode,
+                                        modifiers: settings.precisionModifiers, precision: true)
+                            Text("Press it once to start, and again to leave.")
+                                .font(.caption).foregroundColor(.secondary)
+                        }
+                        .padding(.leading, 20)
+                    }
+
+                    Toggle("Hold a modifier key", isOn: $settings.precisionUseModifier).toggleStyle(.checkbox)
+                    if settings.precisionUseModifier {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Picker("Key", selection: $settings.precisionModifier) {
+                                Text(verbatim: "fn").tag(SettingsManager.PrecisionModifier.fn)
+                                Text(verbatim: "⌃ Control").tag(SettingsManager.PrecisionModifier.control)
+                                Text(verbatim: "⌥ Option").tag(SettingsManager.PrecisionModifier.option)
+                                Text(verbatim: "⇧ Shift").tag(SettingsManager.PrecisionModifier.shift)
+                                Text(verbatim: "⌘ Command").tag(SettingsManager.PrecisionModifier.command)
+                            }
+                            .fixedSize()
+                            Text("Slow while you hold the key. If holding fn opens the emoji picker, set “Press 🌐 key to” to “Do Nothing” in Keyboard settings.")
+                                .font(.caption).foregroundColor(.secondary)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                        .padding(.leading, 20)
+                    }
+
+                    Toggle("Double-tap and hold", isOn: $settings.precisionUseHold).toggleStyle(.checkbox)
+                    if settings.precisionUseHold {
+                        VStack(alignment: .leading, spacing: 6) {
+                            slider("Hold for", value: $settings.precisionHoldDelay, in: 0...3, step: 0.1,
+                                   format: String(format: "%.1f s", settings.precisionHoldDelay),
+                                   note: "Double-tap, keep your finger down for this long, and precision mode starts. Lift to leave.")
+                            Label("If you use double-tap to drag (Dragging or Drag Lock in the trackpad settings), the two clash. Use the keyboard shortcut instead. With tap to click, the first tap also clicks.",
+                                  systemImage: "exclamationmark.triangle")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                        .padding(.leading, 20)
+                    }
                 }
             }
         }
     }
 
     /// ショートカット1つ分の行:名前とスイッチ / キーと変更ボタン
-    private func shortcutRow(_ title: LocalizedStringKey, enabled: Binding<Bool>?, keyCode: Int, modifiers: Int, precision: Bool) -> some View {
+    private func shortcutRow(_ title: LocalizedStringKey?, enabled: Binding<Bool>?, keyCode: Int, modifiers: Int, precision: Bool) -> some View {
         let on = enabled?.wrappedValue ?? true
         return VStack(alignment: .leading, spacing: 6) {
-            HStack {
-                Text(title)
-                Spacer()
-                if let enabled { Toggle("", isOn: enabled).toggleStyle(.switch).controlSize(.small).labelsHidden() }
+            if let title {
+                HStack {
+                    Text(title)
+                    Spacer()
+                    if let enabled { Toggle("", isOn: enabled).toggleStyle(.switch).controlSize(.small).labelsHidden() }
+                }
             }
             HStack {
                 Text(shortcutString(keyCode: keyCode, modifiers: modifiers))

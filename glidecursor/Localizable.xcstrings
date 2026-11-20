@@ -512,16 +512,6 @@
         }
       }
     },
-    "Shortcut": {
-      "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ショートカット"
-          }
-        }
-      }
-    },
     "Press it once to start, and again to leave.": {
       "localizations": {
         "ja": {
@@ -568,6 +558,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "オン・オフのショートカット"
+          }
+        }
+      }
+    },
+    "Hold a modifier key": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "修飾キーを押している間"
+          }
+        }
+      }
+    },
+    "Key": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "キー"
+          }
+        }
+      }
+    },
+    "Slow while you hold the key. If holding fn opens the emoji picker, set “Press 🌐 key to” to “Do Nothing” in Keyboard settings.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "キーを押している間だけ遅くなります。fn を押すと絵文字の一覧が開く場合は、システム設定の「キーボード」で「🌐キーを押して」を「何もしない」にしてください。"
           }
         }
       }

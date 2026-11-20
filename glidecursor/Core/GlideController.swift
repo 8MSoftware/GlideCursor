@@ -132,7 +132,7 @@ final class GlideController: ObservableObject, MultitouchDelegate {
     // MARK: Event tap (main thread)
 
     private func startTap() {
-        let types: [CGEventType] = [.mouseMoved, .leftMouseDragged, .rightMouseDragged, .otherMouseDragged,
+        let types: [CGEventType] = [.flagsChanged, .mouseMoved, .leftMouseDragged, .rightMouseDragged, .otherMouseDragged,
                                     .leftMouseDown, .leftMouseUp, .rightMouseDown, .rightMouseUp,
                                     .otherMouseDown, .otherMouseUp, .scrollWheel]
         let mask = types.reduce(CGEventMask(0)) { $0 | (1 << $1.rawValue) }
@@ -202,6 +202,9 @@ final class GlideController: ObservableObject, MultitouchDelegate {
             if let t = suppressedUps.removeValue(forKey: type), now - t < 5.0 {
                 return nil
             }
+
+        case .flagsChanged:
+            PrecisionMode.shared.modifiersChanged(event.flags)
 
         case .scrollWheel:
             InertiaEngine.shared.stop()

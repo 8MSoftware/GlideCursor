@@ -26,7 +26,7 @@ final class CursorBadge {
         layer.path = CGPath(ellipseIn: CGRect(x: size / 2 - 14, y: size / 2 - 14, width: 28, height: 28), transform: nil)
         layer.fillColor = nil
         layer.strokeColor = NSColor.controlAccentColor.cgColor
-        layer.lineWidth = 2.5
+        layer.lineWidth = 1.5
         if ring == nil { w.contentView?.layer?.addSublayer(layer); ring = layer }
 
         CATransaction.begin()

@@ -10,7 +10,7 @@ import Combine
 final class PrecisionMode: ObservableObject {
     static let shared = PrecisionMode()
 
-    enum Source { case shortcut, hold }
+    enum Source { case shortcut, hold, modifier }
 
     /// メインスレッドで読む(メニューバーのアイコン)
     @Published private(set) var isOn = false
@@ -47,6 +47,26 @@ final class PrecisionMode: ObservableObject {
         source = nil
         position = nil
         CursorBadge.shared.show(entering: false)
+    }
+
+    // MARK: 修飾キーを押している間(タップのコールバック、メインスレッド)
+
+    func modifiersChanged(_ flags: CGEventFlags) {
+        let s = SettingsManager.shared
+        guard s.precisionModifierActive else {
+            if isOn && source == .modifier { exit() }
+            return
+        }
+        let mask: CGEventFlags = switch s.precisionModifier {
+        case .fn: .maskSecondaryFn
+        case .control: .maskControl
+        case .option: .maskAlternate
+        case .shift: .maskShift
+        case .command: .maskCommand
+        }
+        let down = flags.contains(mask)
+        if down && !isOn { enter(.modifier) }
+        if !down && isOn && source == .modifier { exit() }
     }
 
     // MARK: ダブルタップホールド(MT スレッド)

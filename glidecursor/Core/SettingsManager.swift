@@ -31,11 +31,16 @@ final class SettingsManager: ObservableObject {
     @Published var precisionFactor: Double { didSet { d.set(precisionFactor, forKey: "v2.precisionFactor") } }
     /// 精密モードを使う(初期値オフ。ダブルタップでドラッグする人とぶつからないように)
     @Published var precisionEnabled: Bool { didSet { d.set(precisionEnabled, forKey: "v2.precisionEnabled"); updatePrecisionHotKey() } }
-    /// 精密モードの入り方
-    enum PrecisionTrigger: String { case shortcut, hold }
-    @Published var precisionTrigger: PrecisionTrigger { didSet { d.set(precisionTrigger.rawValue, forKey: "v2.precisionTrigger"); updatePrecisionHotKey() } }
-    var precisionShortcutActive: Bool { precisionEnabled && precisionTrigger == .shortcut }
-    var precisionHoldActive: Bool { precisionEnabled && precisionTrigger == .hold }
+    /// 精密モードの入り方(いくつでも選べる)
+    @Published var precisionUseShortcut: Bool { didSet { d.set(precisionUseShortcut, forKey: "v2.precisionUseShortcut"); updatePrecisionHotKey() } }
+    @Published var precisionUseHold: Bool { didSet { d.set(precisionUseHold, forKey: "v2.precisionUseHold") } }
+    @Published var precisionUseModifier: Bool { didSet { d.set(precisionUseModifier, forKey: "v2.precisionUseModifier") } }
+    /// 押している間だけ遅くする修飾キー
+    enum PrecisionModifier: String, CaseIterable { case fn, control, option, shift, command }
+    @Published var precisionModifier: PrecisionModifier { didSet { d.set(precisionModifier.rawValue, forKey: "v2.precisionModifier") } }
+    var precisionShortcutActive: Bool { precisionEnabled && precisionUseShortcut }
+    var precisionHoldActive: Bool { precisionEnabled && precisionUseHold }
+    var precisionModifierActive: Bool { precisionEnabled && precisionUseModifier }
     @Published var precisionKeyCode: Int { didSet { d.set(precisionKeyCode, forKey: "v2.precisionKeyCode"); updatePrecisionHotKey() } }
     @Published var precisionModifiers: Int { didSet { d.set(precisionModifiers, forKey: "v2.precisionModifiers"); updatePrecisionHotKey() } }
     /// ダブルタップホールドで、入るまでに待つ秒数
@@ -71,7 +76,10 @@ final class SettingsManager: ObservableObject {
         launchCount = d.integer(forKey: "v2.launchCount")
         precisionFactor = double("v2.precisionFactor", 0.3)
         precisionEnabled = d.bool(forKey: "v2.precisionEnabled")
-        precisionTrigger = PrecisionTrigger(rawValue: d.string(forKey: "v2.precisionTrigger") ?? "") ?? .shortcut
+        precisionUseShortcut = d.object(forKey: "v2.precisionUseShortcut") == nil ? true : d.bool(forKey: "v2.precisionUseShortcut")
+        precisionUseHold = d.bool(forKey: "v2.precisionUseHold")
+        precisionUseModifier = d.bool(forKey: "v2.precisionUseModifier")
+        precisionModifier = PrecisionModifier(rawValue: d.string(forKey: "v2.precisionModifier") ?? "") ?? .fn
         precisionKeyCode = d.object(forKey: "v2.precisionKeyCode") == nil ? 5 : d.integer(forKey: "v2.precisionKeyCode")          // G
         precisionModifiers = d.object(forKey: "v2.precisionModifiers") == nil ? 4096 | 2048 : d.integer(forKey: "v2.precisionModifiers") // ⌃⌥
         precisionHoldDelay = double("v2.precisionHoldDelay", 0.3)
