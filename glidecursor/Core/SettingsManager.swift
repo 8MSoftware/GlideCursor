@@ -26,6 +26,18 @@ final class SettingsManager: ObservableObject {
 
     @Published var hasLaunchedBefore: Bool { didSet { d.set(hasLaunchedBefore, forKey: "hasLaunchedBefore") } }
 
+    // 精密モード
+    /// カーソルの速さに掛ける倍率(0.1〜0.9)
+    @Published var precisionFactor: Double { didSet { d.set(precisionFactor, forKey: "v2.precisionFactor") } }
+    /// ショートカットで切り替える
+    @Published var precisionShortcutEnabled: Bool { didSet { d.set(precisionShortcutEnabled, forKey: "v2.precisionShortcutEnabled"); updatePrecisionHotKey() } }
+    @Published var precisionKeyCode: Int { didSet { d.set(precisionKeyCode, forKey: "v2.precisionKeyCode"); updatePrecisionHotKey() } }
+    @Published var precisionModifiers: Int { didSet { d.set(precisionModifiers, forKey: "v2.precisionModifiers"); updatePrecisionHotKey() } }
+    /// ダブルタップして指を置いたまま待つと入る(指を離すと出る)
+    @Published var precisionDoubleTapHold: Bool { didSet { d.set(precisionDoubleTapHold, forKey: "v2.precisionDoubleTapHold") } }
+    /// ダブルタップホールドで、入るまでに待つ秒数
+    @Published var precisionHoldDelay: Double { didSet { d.set(precisionHoldDelay, forKey: "v2.precisionHoldDelay") } }
+
     /// 起動した回数(寄付のお願いを2回目から出すため)
     @Published var launchCount: Int { didSet { d.set(launchCount, forKey: "v2.launchCount") } }
     /// 寄付のお願いで「今後は表示しない」を選んだ
@@ -54,6 +66,12 @@ final class SettingsManager: ObservableObject {
         suppressClickOnStop = d.object(forKey: "v2.suppressClickOnStop") == nil ? true : d.bool(forKey: "v2.suppressClickOnStop")
         hasLaunchedBefore = d.bool(forKey: "hasLaunchedBefore")
         launchCount = d.integer(forKey: "v2.launchCount")
+        precisionFactor = double("v2.precisionFactor", 0.3)
+        precisionShortcutEnabled = d.object(forKey: "v2.precisionShortcutEnabled") == nil ? true : d.bool(forKey: "v2.precisionShortcutEnabled")
+        precisionKeyCode = d.object(forKey: "v2.precisionKeyCode") == nil ? 5 : d.integer(forKey: "v2.precisionKeyCode")          // G
+        precisionModifiers = d.object(forKey: "v2.precisionModifiers") == nil ? 4096 | 2048 : d.integer(forKey: "v2.precisionModifiers") // ⌃⌥
+        precisionDoubleTapHold = d.bool(forKey: "v2.precisionDoubleTapHold")
+        precisionHoldDelay = double("v2.precisionHoldDelay", 0.3)
         donationPromptDismissed = d.bool(forKey: "v2.donationPromptDismissed")
         isGlobalShortcutEnabled = d.bool(forKey: "isGlobalShortcutEnabled")
         globalShortcutKeyCode = d.object(forKey: "globalShortcutKeyCode") == nil ? 5 : d.integer(forKey: "globalShortcutKeyCode")       // G
@@ -61,11 +79,15 @@ final class SettingsManager: ObservableObject {
 
         // 旧版の速度設定は単位が違うので読まない（v2. 付きのキーを使う）
 
+        HotKeyManager.shared.onPrecision = {
+            GlideController.shared.togglePrecision()
+        }
         HotKeyManager.shared.onTrigger = { [weak self] in
             guard let self else { return }
             self.setEnabled(!self.isEnabled)
         }
         updateHotKey()
+        updatePrecisionHotKey()
     }
 
     func setEnabled(_ on: Bool) {
@@ -87,10 +109,15 @@ final class SettingsManager: ObservableObject {
     }
 
     func resetToDefaults() {
+        precisionFactor = 0.3
         speedMultiplier = Self.defaults.speed
         glideLength = Self.defaults.glideLength
         flickThreshold = Self.defaults.flick
         maxSpeed = Self.defaults.maxSpeed
+    }
+
+    private func updatePrecisionHotKey() {
+        HotKeyManager.shared.update(.precision, enabled: precisionShortcutEnabled, keyCode: precisionKeyCode, modifiers: precisionModifiers)
     }
 
     private func updateHotKey() {

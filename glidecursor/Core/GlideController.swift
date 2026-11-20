@@ -51,10 +51,17 @@ final class GlideController: ObservableObject, MultitouchDelegate {
         guard isActive else { return }
         isActive = false
         InertiaEngine.shared.stop()
+        if PrecisionMode.shared.isOn { PrecisionMode.shared.exit() }
         stopTap()
         MultitouchManager.shared.stop()
         samples = [:]
         suppressedUps = [:]
+    }
+
+    /// 精密モードの切り替え(ショートカット)。GlideCursor が動いているときだけ
+    func togglePrecision() {
+        guard isActive else { return }
+        PrecisionMode.shared.toggle()
     }
 
     /// スリープ復帰後などに MT デバイスを取り直す
@@ -66,6 +73,7 @@ final class GlideController: ObservableObject, MultitouchDelegate {
     // MARK: MultitouchDelegate (MT thread)
 
     func touchDown(device: MTDeviceInfo) {
+        PrecisionMode.shared.touchDown(regID: device.regID, isTrackpad: !device.isMagicMouse)
         if InertiaEngine.shared.stop() {
             MultitouchManager.shared.markStoppedGlide(regID: device.regID)
             log.debug("touch \(device.name, privacy: .public): glide stopped")
@@ -73,6 +81,7 @@ final class GlideController: ObservableObject, MultitouchDelegate {
     }
 
     func touchLift(device: MTDeviceInfo, session: TouchSession) {
+        PrecisionMode.shared.touchLift(regID: device.regID, session: session)
         // 指が離れた直後に届くカーソル移動も拾ってから判定する
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.012) { [weak self] in
             self?.evaluateFlick(device: device, session: session)
@@ -84,7 +93,7 @@ final class GlideController: ObservableObject, MultitouchDelegate {
     private func evaluateFlick(device: MTDeviceInfo, session: TouchSession) {
         let settings = SettingsManager.shared
         func skip(_ why: String) { log.debug("lift \(device.name, privacy: .public): no glide (\(why, privacy: .public))") }
-        guard isActive, settings.isEnabled else { return }
+        guard isActive, settings.isEnabled, !PrecisionMode.shared.isOn else { return }
         // トラックパッドは 1 本指の操作だけ（2 本指以上はスクロールやジェスチャー）
         guard device.isMagicMouse || session.maxFingers == 1 else { return skip("\(session.maxFingers) fingers") }
         guard let dev = DeviceRegistry.shared.device(forSender: device.regID),
@@ -165,6 +174,7 @@ final class GlideController: ObservableObject, MultitouchDelegate {
         switch type {
         case .mouseMoved, .leftMouseDragged, .rightMouseDragged, .otherMouseDragged:
             guard sender != 0 else { break }   // システムが作った移動は無視
+            PrecisionMode.shared.adjust(event)
             record(sender: sender, event: event, drag: type != .mouseMoved, now: now)
             if InertiaEngine.shared.isRunning {
                 let straggler = sender == glideSource

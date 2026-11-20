@@ -1,51 +1,52 @@
 import Carbon
 import AppKit
 
-// Global C-function for the event handler
+/// グローバルショートカット(Carbon の RegisterEventHotKey)。
+/// 1: GlideCursor のオン・オフ、2: 精密モードの切り替え
 private func hotKeyHandler(nextHandler: EventHandlerCallRef?, event: EventRef?, userData: UnsafeMutableRawPointer?) -> OSStatus {
-    HotKeyManager.shared.handleTrigger()
+    var hk = EventHotKeyID()
+    if let event {
+        GetEventParameter(event, EventParamName(kEventParamDirectObject), EventParamType(typeEventHotKeyID),
+                          nil, MemoryLayout<EventHotKeyID>.size, nil, &hk)
+    }
+    HotKeyManager.shared.handleTrigger(id: hk.id)
     return noErr
 }
 
-class HotKeyManager {
+final class HotKeyManager {
     static let shared = HotKeyManager()
-    private var hotKeyRef: EventHotKeyRef?
-    
+
+    enum Key: UInt32 { case toggle = 1, precision = 2 }
+
+    private var refs: [Key: EventHotKeyRef] = [:]
     var onTrigger: (() -> Void)?
-    
+    var onPrecision: (() -> Void)?
+
     private init() {
-        // Install the event handler for the hotkey event
         var eventType = EventTypeSpec(eventClass: OSType(kEventClassKeyboard), eventKind: UInt32(kEventHotKeyPressed))
         InstallEventHandler(GetApplicationEventTarget(), hotKeyHandler, 1, &eventType, nil, nil)
     }
-    
-    func handleTrigger() {
+
+    func handleTrigger(id: UInt32) {
         DispatchQueue.main.async {
-            self.onTrigger?()
-        }
-    }
-    
-    func update(enabled: Bool, keyCode: Int, modifiers: Int) {
-        unregister()
-        
-        if enabled {
-            // Default to Control + G if 0 (though SettingsManager should handle defaults)
-            let kCode = UInt32(keyCode)
-            let mods = UInt32(modifiers)
-            
-            let hotKeyID = EventHotKeyID(signature: OSType(0x474C4944), id: 1) // 'GLID'
-            
-            let status = RegisterEventHotKey(kCode, mods, hotKeyID, GetApplicationEventTarget(), 0, &hotKeyRef)
-            if status != noErr {
-                print("Failed to register hotkey: \(status)")
+            switch Key(rawValue: id) {
+            case .precision: self.onPrecision?()
+            default: self.onTrigger?()
             }
         }
     }
-    
-    private func unregister() {
-        if let ref = hotKeyRef {
-            UnregisterEventHotKey(ref)
-            hotKeyRef = nil
-        }
+
+    /// 1つ目(オン・オフ)。旧来の呼び方
+    func update(enabled: Bool, keyCode: Int, modifiers: Int) {
+        update(.toggle, enabled: enabled, keyCode: keyCode, modifiers: modifiers)
+    }
+
+    func update(_ key: Key, enabled: Bool, keyCode: Int, modifiers: Int) {
+        if let ref = refs.removeValue(forKey: key) { UnregisterEventHotKey(ref) }
+        guard enabled else { return }
+        var ref: EventHotKeyRef?
+        let id = EventHotKeyID(signature: OSType(0x474C4944), id: key.rawValue) // 'GLID'
+        let status = RegisterEventHotKey(UInt32(keyCode), UInt32(modifiers), id, GetApplicationEventTarget(), 0, &ref)
+        if status == noErr, let ref { refs[key] = ref } else { NSLog("GlideCursor: hotkey \(key) failed: \(status)") }
     }
 }

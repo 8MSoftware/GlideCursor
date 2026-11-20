@@ -5,6 +5,7 @@ struct SettingsView: View {
     @ObservedObject var registry = DeviceRegistry.shared
     @ObservedObject var glide = GlideController.shared
     @State private var isRecording = false
+    @State private var recordingPrecision = false
     @State private var keyMonitor: Any?
     @State private var launchAtLogin = LaunchAtLogin.isEnabled
 
@@ -107,6 +108,40 @@ struct SettingsView: View {
 
             Divider()
 
+            // 精密モード
+            VStack(alignment: .leading, spacing: 8) {
+                Text("Precision mode").font(.subheadline).foregroundColor(.secondary)
+                slider("Precision speed", value: $settings.precisionFactor, in: 0.1...0.9, step: 0.1,
+                       format: String(format: "×%.1f", settings.precisionFactor),
+                       note: "In precision mode, the cursor moves this much slower. No glide while it is on.")
+                HStack {
+                    Toggle("Shortcut", isOn: $settings.precisionShortcutEnabled)
+                        .toggleStyle(.switch)
+                        .controlSize(.small)
+                    Spacer()
+                    if settings.precisionShortcutEnabled {
+                        Text(shortcutString(keyCode: settings.precisionKeyCode, modifiers: settings.precisionModifiers))
+                            .font(.system(.body, design: .monospaced))
+                            .padding(4)
+                            .background(Color.gray.opacity(0.1))
+                            .cornerRadius(6)
+                        Button(isRecording && recordingPrecision ? "Press Key…" : "Change") { startRecording(precision: true) }
+                            .font(.caption)
+                            .disabled(isRecording)
+                    }
+                }
+                Toggle("Double-tap and hold", isOn: $settings.precisionDoubleTapHold)
+                    .toggleStyle(.switch)
+                    .controlSize(.small)
+                if settings.precisionDoubleTapHold {
+                    slider("Hold for", value: $settings.precisionHoldDelay, in: 0.1...1.0, step: 0.1,
+                           format: String(format: "%.1f s", settings.precisionHoldDelay),
+                           note: "Double-tap, keep your finger down, and precision mode starts after this time. Lift to leave. With tap to click, the first tap also clicks.")
+                }
+            }
+
+            Divider()
+
             // Global Shortcut
             VStack(alignment: .leading, spacing: 6) {
                 HStack {
@@ -125,7 +160,7 @@ struct SettingsView: View {
                             .background(Color.gray.opacity(0.1))
                             .cornerRadius(6)
                         Spacer()
-                        Button(isRecording ? "Press Key…" : "Change") { startRecording() }
+                        Button(isRecording && !recordingPrecision ? "Press Key…" : "Change") { startRecording(precision: false) }
                             .font(.caption)
                             .disabled(isRecording)
                     }
@@ -195,8 +230,9 @@ struct SettingsView: View {
         }
     }
 
-    private func startRecording() {
+    private func startRecording(precision: Bool) {
         isRecording = true
+        recordingPrecision = precision
         keyMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
             guard isRecording else { return event }
             var mods = 0
@@ -204,8 +240,13 @@ struct SettingsView: View {
             if event.modifierFlags.contains(.shift) { mods |= 512 }     // shiftKey
             if event.modifierFlags.contains(.option) { mods |= 2048 }   // optionKey
             if event.modifierFlags.contains(.control) { mods |= 4096 }  // controlKey
-            settings.globalShortcutKeyCode = Int(event.keyCode)
-            settings.globalShortcutModifiers = mods
+            if recordingPrecision {
+                settings.precisionKeyCode = Int(event.keyCode)
+                settings.precisionModifiers = mods
+            } else {
+                settings.globalShortcutKeyCode = Int(event.keyCode)
+                settings.globalShortcutModifiers = mods
+            }
             isRecording = false
             if let m = keyMonitor { NSEvent.removeMonitor(m); keyMonitor = nil }
             return nil

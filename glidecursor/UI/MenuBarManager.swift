@@ -1,11 +1,13 @@
 import Cocoa
 import SwiftUI
+import Combine
 
 class MenuBarManager: NSObject {
     var statusItem: NSStatusItem
     var popover: NSPopover
     // .transient が EventTap 追加後に壊れる場合のバックアップ外クリック検知
     private var outsideClickMonitor: Any?
+    private var precisionWatch: AnyCancellable?
 
     override init() {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
@@ -17,6 +19,12 @@ class MenuBarManager: NSObject {
             button.image = NSImage(systemSymbolName: "cursorarrow.motionlines", accessibilityDescription: "GlideCursor")
             button.action = #selector(togglePopover(_:))
             button.target = self
+        }
+
+        // 精密モードのあいだは、アイコンを変える
+        precisionWatch = PrecisionMode.shared.$isOn.receive(on: DispatchQueue.main).sink { [weak self] on in
+            self?.statusItem.button?.image = NSImage(systemSymbolName: on ? "scope" : "cursorarrow.motionlines",
+                                                     accessibilityDescription: "GlideCursor")
         }
 
         popover.behavior = .transient

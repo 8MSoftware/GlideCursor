@@ -431,6 +431,76 @@
           }
         }
       }
+    },
+    "Precision mode": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "精密モード"
+          }
+        }
+      }
+    },
+    "Precision speed": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "精密モードの速さ"
+          }
+        }
+      }
+    },
+    "In precision mode, the cursor moves this much slower. No glide while it is on.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "精密モードのあいだ、カーソルがこの倍率で遅くなります。そのあいだは滑りません。"
+          }
+        }
+      }
+    },
+    "Shortcut": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ショートカット"
+          }
+        }
+      }
+    },
+    "Double-tap and hold": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ダブルタップホールド"
+          }
+        }
+      }
+    },
+    "Hold for": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "待つ時間"
+          }
+        }
+      }
+    },
+    "Double-tap, keep your finger down, and precision mode starts after this time. Lift to leave. With tap to click, the first tap also clicks.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ダブルタップして指を置いたまま、この時間がたつと精密モードに入ります。指を離すと出ます。「タップでクリック」を使っていると、1回目のタップはクリックになります。"
+          }
+        }
+      }
     }
   }
 }
