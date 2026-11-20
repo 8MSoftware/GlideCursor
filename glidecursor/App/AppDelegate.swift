@@ -76,8 +76,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let view = DonationView { [weak self] in self?.donationWindow?.close() }
         let window = NSWindow(contentRect: .zero, styleMask: [.titled, .closable], backing: .buffered, defer: false)
         window.title = "GlideCursor"
-        window.contentView = NSHostingView(rootView: view)
+        let host = NSHostingView(rootView: view)
+        window.contentView = host
         window.isReleasedWhenClosed = false
+        // 中身の大きさを決めてから、画面の中央に置く
+        window.setContentSize(host.fittingSize)
         window.center()
         donationWindow = window
         window.makeKeyAndOrderFront(nil)

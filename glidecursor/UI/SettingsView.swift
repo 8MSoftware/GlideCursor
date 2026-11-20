@@ -9,6 +9,10 @@ struct SettingsView: View {
     @State private var keyMonitor: Any?
     @State private var launchAtLogin = LaunchAtLogin.isEnabled
 
+    /// 設定のタブ。最後に開いていたタブを覚える
+    enum Tab: String, CaseIterable { case glide, precision, shortcuts }
+    @AppStorage("v2.settingsTab") private var tab: Tab = .glide
+
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
             // Header
@@ -20,33 +24,67 @@ struct SettingsView: View {
                     .labelsHidden()
             }
 
-            if settings.isEnabled && !glide.tapRunning {
-                VStack(alignment: .leading, spacing: 6) {
-                    Label("Accessibility permission is needed. GlideCursor can't see or move the cursor until it is allowed.",
-                          systemImage: "lock.fill")
-                        .font(.caption)
-                        .foregroundColor(.orange)
-                    Button("Open Accessibility Settings") {
-                        Permissions.requestAccessibilityIfNeeded()
-                        Permissions.openAccessibilitySettings()
-                    }
-                    .font(.caption)
-                    Text("If GlideCursor is already listed and on, remove it with − and add it again.")
-                        .font(.caption2)
-                        .foregroundColor(.secondary)
-                }
-            }
+            warnings
 
-            if !GlideController.shared.multitouchAvailable {
-                Label("Touch detection is unavailable on this macOS version. Gliding is disabled.",
-                      systemImage: "exclamationmark.triangle.fill")
-                    .font(.caption)
-                    .foregroundColor(.orange)
+            Picker("", selection: $tab) {
+                Text("Glide").tag(Tab.glide)
+                Text("Precision").tag(Tab.precision)
+                Text("Shortcuts").tag(Tab.shortcuts)
+            }
+            .pickerStyle(.segmented)
+            .labelsHidden()
+            .controlSize(.small)
+
+            switch tab {
+            case .glide: glideTab
+            case .precision: precisionTab
+            case .shortcuts: shortcutsTab
             }
 
             Divider()
 
-            // Devices
+            HStack {
+                Button("Reset to Defaults") { settings.resetToDefaults() }
+                    .font(.caption)
+                    .help("Resets the sliders. Devices and shortcuts are kept.")
+                Spacer()
+                appMenu
+            }
+        }
+        // 中身の幅を先に決めてから余白を付ける(長い文やタブがはみ出さないように)
+        .frame(width: 288, alignment: .leading)
+        .padding(16)
+    }
+
+    @ViewBuilder private var warnings: some View {
+        if settings.isEnabled && !glide.tapRunning {
+            VStack(alignment: .leading, spacing: 6) {
+                Label("Accessibility permission is needed. GlideCursor can't see or move the cursor until it is allowed.",
+                      systemImage: "lock.fill")
+                    .font(.caption)
+                    .foregroundColor(.orange)
+                Button("Open Accessibility Settings") {
+                    Permissions.requestAccessibilityIfNeeded()
+                    Permissions.openAccessibilitySettings()
+                }
+                .font(.caption)
+                Text("If GlideCursor is already listed and on, remove it with − and add it again.")
+                    .font(.caption2)
+                    .foregroundColor(.secondary)
+            }
+        }
+        if !GlideController.shared.multitouchAvailable {
+            Label("Touch detection is unavailable on this macOS version. Gliding is disabled.",
+                  systemImage: "exclamationmark.triangle.fill")
+                .font(.caption)
+                .foregroundColor(.orange)
+        }
+    }
+
+    // MARK: 慣性
+
+    private var glideTab: some View {
+        VStack(alignment: .leading, spacing: 14) {
             VStack(alignment: .leading, spacing: 6) {
                 Text("Glide on these devices").font(.subheadline).foregroundColor(.secondary)
                 if registry.devices.isEmpty {
@@ -79,7 +117,6 @@ struct SettingsView: View {
 
             Divider()
 
-            // Sliders
             VStack(alignment: .leading, spacing: 12) {
                 slider("Glide length", value: $settings.glideLength, in: 0.15...1.5, step: 0.05,
                        format: String(format: "%.2f s", settings.glideLength),
@@ -97,87 +134,85 @@ struct SettingsView: View {
 
             Divider()
 
-            VStack(alignment: .leading, spacing: 4) {
-                Toggle("Ignore the tap that stops a glide", isOn: $settings.suppressClickOnStop)
-                    .toggleStyle(.switch)
-                    .controlSize(.small)
-                Text("With tap to click, touching the trackpad to stop a glide won't also click.")
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-            }
+            switchRow("Ignore the tap that stops a glide", isOn: $settings.suppressClickOnStop,
+                      note: "With tap to click, touching the trackpad to stop a glide won't also click.")
+        }
+    }
+
+    // MARK: 精密モード
+
+    private var precisionTab: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            Text("Slows the cursor down for fine positioning. Start it with the shortcut (see Shortcuts), or with a double-tap and hold.")
+                .font(.caption)
+                .foregroundColor(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+
+            slider("Precision speed", value: $settings.precisionFactor, in: 0.1...0.9, step: 0.1,
+                   format: String(format: "×%.1f", settings.precisionFactor),
+                   note: "In precision mode, the cursor moves this much slower. No glide while it is on.")
 
             Divider()
 
-            // 精密モード
-            VStack(alignment: .leading, spacing: 8) {
-                Text("Precision mode").font(.subheadline).foregroundColor(.secondary)
-                slider("Precision speed", value: $settings.precisionFactor, in: 0.1...0.9, step: 0.1,
-                       format: String(format: "×%.1f", settings.precisionFactor),
-                       note: "In precision mode, the cursor moves this much slower. No glide while it is on.")
-                HStack {
-                    Toggle("Shortcut", isOn: $settings.precisionShortcutEnabled)
-                        .toggleStyle(.switch)
-                        .controlSize(.small)
-                    Spacer()
-                    if settings.precisionShortcutEnabled {
-                        Text(shortcutString(keyCode: settings.precisionKeyCode, modifiers: settings.precisionModifiers))
-                            .font(.system(.body, design: .monospaced))
-                            .padding(4)
-                            .background(Color.gray.opacity(0.1))
-                            .cornerRadius(6)
-                        Button(isRecording && recordingPrecision ? "Press Key…" : "Change") { startRecording(precision: true) }
-                            .font(.caption)
-                            .disabled(isRecording)
-                    }
-                }
-                Toggle("Double-tap and hold", isOn: $settings.precisionDoubleTapHold)
-                    .toggleStyle(.switch)
-                    .controlSize(.small)
-                if settings.precisionDoubleTapHold {
-                    slider("Hold for", value: $settings.precisionHoldDelay, in: 0...3, step: 0.1,
-                           format: String(format: "%.1f s", settings.precisionHoldDelay),
-                           note: "Double-tap, keep your finger down, and precision mode starts after this time. Lift to leave. With tap to click, the first tap also clicks.")
-                }
-            }
-
-            Divider()
-
-            // Global Shortcut
-            VStack(alignment: .leading, spacing: 6) {
-                HStack {
-                    Text("Global Shortcut").font(.subheadline).foregroundColor(.secondary)
-                    Spacer()
-                    Toggle("", isOn: $settings.isGlobalShortcutEnabled)
-                        .toggleStyle(.switch)
-                        .controlSize(.small)
-                        .labelsHidden()
-                }
-                if settings.isGlobalShortcutEnabled {
-                    HStack {
-                        Text(shortcutString(keyCode: settings.globalShortcutKeyCode, modifiers: settings.globalShortcutModifiers))
-                            .font(.system(.body, design: .monospaced))
-                            .padding(4)
-                            .background(Color.gray.opacity(0.1))
-                            .cornerRadius(6)
-                        Spacer()
-                        Button(isRecording && !recordingPrecision ? "Press Key…" : "Change") { startRecording(precision: false) }
-                            .font(.caption)
-                            .disabled(isRecording)
-                    }
-                }
-            }
-
-            Divider()
-
-            HStack {
-                Button("Reset to Defaults") { settings.resetToDefaults() }
-                    .font(.caption)
-                Spacer()
-                appMenu
+            switchRow("Double-tap and hold", isOn: $settings.precisionDoubleTapHold,
+                      note: "Double-tap, keep your finger down, and precision mode starts. Lift to leave. With tap to click, the first tap also clicks.")
+            if settings.precisionDoubleTapHold {
+                slider("Hold for", value: $settings.precisionHoldDelay, in: 0...3, step: 0.1,
+                       format: String(format: "%.1f s", settings.precisionHoldDelay),
+                       note: "How long to keep your finger down before precision mode starts.")
             }
         }
-        .padding()
-        .frame(width: 320)
+    }
+
+    // MARK: ショートカット
+
+    private var shortcutsTab: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            shortcutRow("Turn GlideCursor on or off", enabled: $settings.isGlobalShortcutEnabled,
+                        keyCode: settings.globalShortcutKeyCode, modifiers: settings.globalShortcutModifiers, precision: false)
+            Divider()
+            shortcutRow("Precision mode on or off", enabled: $settings.precisionShortcutEnabled,
+                        keyCode: settings.precisionKeyCode, modifiers: settings.precisionModifiers, precision: true)
+            Text("Shortcuts work in any app. Click Change, then press the new keys.")
+                .font(.caption)
+                .foregroundColor(.secondary)
+        }
+    }
+
+    /// ショートカット1つ分の行:名前とスイッチ / キーと変更ボタン
+    private func shortcutRow(_ title: LocalizedStringKey, enabled: Binding<Bool>, keyCode: Int, modifiers: Int, precision: Bool) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            HStack {
+                Text(title)
+                Spacer()
+                Toggle("", isOn: enabled).toggleStyle(.switch).controlSize(.small).labelsHidden()
+            }
+            HStack {
+                Text(shortcutString(keyCode: keyCode, modifiers: modifiers))
+                    .font(.system(.body, design: .monospaced))
+                    .padding(.horizontal, 6)
+                    .padding(.vertical, 2)
+                    .background(Color.gray.opacity(0.15))
+                    .cornerRadius(6)
+                    .opacity(enabled.wrappedValue ? 1 : 0.4)
+                Spacer()
+                Button(isRecording && recordingPrecision == precision ? "Press Key…" : "Change") { startRecording(precision: precision) }
+                    .font(.caption)
+                    .disabled(isRecording || !enabled.wrappedValue)
+            }
+        }
+    }
+
+    /// 名前とスイッチを1行に、説明をその下に
+    private func switchRow(_ title: LocalizedStringKey, isOn: Binding<Bool>, note: LocalizedStringKey) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            HStack {
+                Text(title)
+                Spacer()
+                Toggle("", isOn: isOn).toggleStyle(.switch).controlSize(.small).labelsHidden()
+            }
+            Text(note).font(.caption).foregroundColor(.secondary).fixedSize(horizontal: false, vertical: true)
+        }
     }
 
     /// 歯車ボタンのメニュー：言語・ログイン時に開く・Web サイト・終了

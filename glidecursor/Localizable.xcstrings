@@ -182,16 +182,6 @@
         }
       }
     },
-    "Global Shortcut": {
-      "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "グローバルショートカット"
-          }
-        }
-      }
-    },
     "Press Key…": {
       "localizations": {
         "ja": {
@@ -462,16 +452,6 @@
         }
       }
     },
-    "Shortcut": {
-      "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ショートカット"
-          }
-        }
-      }
-    },
     "Double-tap and hold": {
       "localizations": {
         "ja": {
@@ -492,12 +472,102 @@
         }
       }
     },
-    "Double-tap, keep your finger down, and precision mode starts after this time. Lift to leave. With tap to click, the first tap also clicks.": {
+    "Glide": {
       "localizations": {
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "ダブルタップして指を置いたまま、この時間がたつと精密モードに入ります。指を離すと出ます。「タップでクリック」を使っていると、1回目のタップはクリックになります。"
+            "value": "慣性"
+          }
+        }
+      }
+    },
+    "Precision": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "精密"
+          }
+        }
+      }
+    },
+    "Shortcuts": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ショートカット"
+          }
+        }
+      }
+    },
+    "Resets the sliders. Devices and shortcuts are kept.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "スライダーを初期値に戻します。デバイスとショートカットの設定は残ります。"
+          }
+        }
+      }
+    },
+    "Slows the cursor down for fine positioning. Start it with the shortcut (see Shortcuts), or with a double-tap and hold.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "細かい位置合わせのために、カーソルを遅くします。ショートカット(「ショートカット」タブ)か、ダブルタップホールドで入ります。"
+          }
+        }
+      }
+    },
+    "Double-tap, keep your finger down, and precision mode starts. Lift to leave. With tap to click, the first tap also clicks.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ダブルタップして指を置いたままにすると、精密モードに入ります。指を離すと出ます。「タップでクリック」を使っていると、1回目のタップはクリックになります。"
+          }
+        }
+      }
+    },
+    "How long to keep your finger down before precision mode starts.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "指を置いたまま、精密モードに入るまで待つ時間です。"
+          }
+        }
+      }
+    },
+    "Turn GlideCursor on or off": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GlideCursor のオン・オフ"
+          }
+        }
+      }
+    },
+    "Precision mode on or off": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "精密モードの切り替え"
+          }
+        }
+      }
+    },
+    "Shortcuts work in any app. Click Change, then press the new keys.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ショートカットは、どのアプリを使っているときでも効きます。「変更」を押してから、新しいキーを押してください。"
           }
         }
       }
