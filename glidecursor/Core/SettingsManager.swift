@@ -29,12 +29,15 @@ final class SettingsManager: ObservableObject {
     // 精密モード
     /// カーソルの速さに掛ける倍率(0.1〜0.9)
     @Published var precisionFactor: Double { didSet { d.set(precisionFactor, forKey: "v2.precisionFactor") } }
-    /// ショートカットで切り替える
-    @Published var precisionShortcutEnabled: Bool { didSet { d.set(precisionShortcutEnabled, forKey: "v2.precisionShortcutEnabled"); updatePrecisionHotKey() } }
+    /// 精密モードを使う(初期値オフ。ダブルタップでドラッグする人とぶつからないように)
+    @Published var precisionEnabled: Bool { didSet { d.set(precisionEnabled, forKey: "v2.precisionEnabled"); updatePrecisionHotKey() } }
+    /// 精密モードの入り方
+    enum PrecisionTrigger: String { case shortcut, hold }
+    @Published var precisionTrigger: PrecisionTrigger { didSet { d.set(precisionTrigger.rawValue, forKey: "v2.precisionTrigger"); updatePrecisionHotKey() } }
+    var precisionShortcutActive: Bool { precisionEnabled && precisionTrigger == .shortcut }
+    var precisionHoldActive: Bool { precisionEnabled && precisionTrigger == .hold }
     @Published var precisionKeyCode: Int { didSet { d.set(precisionKeyCode, forKey: "v2.precisionKeyCode"); updatePrecisionHotKey() } }
     @Published var precisionModifiers: Int { didSet { d.set(precisionModifiers, forKey: "v2.precisionModifiers"); updatePrecisionHotKey() } }
-    /// ダブルタップして指を置いたまま待つと入る(指を離すと出る)
-    @Published var precisionDoubleTapHold: Bool { didSet { d.set(precisionDoubleTapHold, forKey: "v2.precisionDoubleTapHold") } }
     /// ダブルタップホールドで、入るまでに待つ秒数
     @Published var precisionHoldDelay: Double { didSet { d.set(precisionHoldDelay, forKey: "v2.precisionHoldDelay") } }
 
@@ -67,10 +70,10 @@ final class SettingsManager: ObservableObject {
         hasLaunchedBefore = d.bool(forKey: "hasLaunchedBefore")
         launchCount = d.integer(forKey: "v2.launchCount")
         precisionFactor = double("v2.precisionFactor", 0.3)
-        precisionShortcutEnabled = d.object(forKey: "v2.precisionShortcutEnabled") == nil ? true : d.bool(forKey: "v2.precisionShortcutEnabled")
+        precisionEnabled = d.bool(forKey: "v2.precisionEnabled")
+        precisionTrigger = PrecisionTrigger(rawValue: d.string(forKey: "v2.precisionTrigger") ?? "") ?? .shortcut
         precisionKeyCode = d.object(forKey: "v2.precisionKeyCode") == nil ? 5 : d.integer(forKey: "v2.precisionKeyCode")          // G
         precisionModifiers = d.object(forKey: "v2.precisionModifiers") == nil ? 4096 | 2048 : d.integer(forKey: "v2.precisionModifiers") // ⌃⌥
-        precisionDoubleTapHold = d.bool(forKey: "v2.precisionDoubleTapHold")
         precisionHoldDelay = double("v2.precisionHoldDelay", 0.3)
         donationPromptDismissed = d.bool(forKey: "v2.donationPromptDismissed")
         isGlobalShortcutEnabled = d.bool(forKey: "isGlobalShortcutEnabled")
@@ -117,7 +120,7 @@ final class SettingsManager: ObservableObject {
     }
 
     private func updatePrecisionHotKey() {
-        HotKeyManager.shared.update(.precision, enabled: precisionShortcutEnabled, keyCode: precisionKeyCode, modifiers: precisionModifiers)
+        HotKeyManager.shared.update(.precision, enabled: precisionShortcutActive, keyCode: precisionKeyCode, modifiers: precisionModifiers)
     }
 
     private func updateHotKey() {

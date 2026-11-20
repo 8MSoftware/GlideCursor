@@ -23,7 +23,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         ScreenshotMode.apply(menuBar: menuBarManager)
 
         if !settings.hasLaunchedBefore {
-            settings.isEnabled = false   // 初回は必ず OFF
+            settings.isEnabled = true    // 初回からオン(何も起きないと、試されないまま消されてしまうので)
             showFirstLaunch()
         }
 

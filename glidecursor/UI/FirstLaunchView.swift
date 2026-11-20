@@ -17,12 +17,8 @@ struct FirstLaunchView: View {
             
             VStack(alignment: .leading, spacing: 15) {
                 HStack {
-                    Image(systemName: "xmark.circle.fill").foregroundColor(.red)
-                    Text("GlideCursor is currently OFF")
-                }
-                HStack {
                     Image(systemName: "checkmark.circle.fill").foregroundColor(.green)
-                    Text("To enable, click the menu bar icon and turn GlideCursor on.")
+                    Text("GlideCursor is on. You can turn it off from the menu bar icon.")
                 }
                 HStack {
                     Image(systemName: "hand.raised.fill").foregroundColor(.orange)

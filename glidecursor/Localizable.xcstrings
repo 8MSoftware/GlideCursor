@@ -232,26 +232,6 @@
         }
       }
     },
-    "GlideCursor is currently OFF": {
-      "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "GlideCursor は現在オフです"
-          }
-        }
-      }
-    },
-    "To enable, click the menu bar icon and turn GlideCursor on.": {
-      "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "使うには、メニューバーのアイコンをクリックして、GlideCursor をオンにしてください。"
-          }
-        }
-      }
-    },
     "Accessibility permissions are required to control the cursor.": {
       "localizations": {
         "ja": {
@@ -442,26 +422,6 @@
         }
       }
     },
-    "In precision mode, the cursor moves this much slower. No glide while it is on.": {
-      "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "精密モードのあいだ、カーソルがこの倍率で遅くなります。そのあいだは滑りません。"
-          }
-        }
-      }
-    },
-    "Double-tap and hold": {
-      "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ダブルタップホールド"
-          }
-        }
-      }
-    },
     "Hold for": {
       "localizations": {
         "ja": {
@@ -482,26 +442,6 @@
         }
       }
     },
-    "Precision": {
-      "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "精密"
-          }
-        }
-      }
-    },
-    "Shortcuts": {
-      "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ショートカット"
-          }
-        }
-      }
-    },
     "Resets the sliders. Devices and shortcuts are kept.": {
       "localizations": {
         "ja": {
@@ -512,62 +452,122 @@
         }
       }
     },
-    "Slows the cursor down for fine positioning. Start it with the shortcut (see Shortcuts), or with a double-tap and hold.": {
+    "Use precision mode": {
       "localizations": {
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "細かい位置合わせのために、カーソルを遅くします。ショートカット(「ショートカット」タブ)か、ダブルタップホールドで入ります。"
+            "value": "精密モードを使う"
           }
         }
       }
     },
-    "Double-tap, keep your finger down, and precision mode starts. Lift to leave. With tap to click, the first tap also clicks.": {
+    "Slows the cursor down for fine positioning, for example in a drawing app. No glide while it is on.": {
       "localizations": {
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "ダブルタップして指を置いたままにすると、精密モードに入ります。指を離すと出ます。「タップでクリック」を使っていると、1回目のタップはクリックになります。"
+            "value": "描画アプリなどで細かく位置を合わせるために、カーソルを遅くします。精密モードのあいだは滑りません。"
           }
         }
       }
     },
-    "How long to keep your finger down before precision mode starts.": {
+    "The cursor moves this much slower in precision mode.": {
       "localizations": {
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "指を置いたまま、精密モードに入るまで待つ時間です。"
+            "value": "精密モードのあいだ、カーソルがこの倍率で遅くなります。"
           }
         }
       }
     },
-    "Turn GlideCursor on or off": {
+    "How to start": {
       "localizations": {
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "GlideCursor のオン・オフ"
+            "value": "入り方"
           }
         }
       }
     },
-    "Precision mode on or off": {
+    "Keyboard shortcut": {
       "localizations": {
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "精密モードの切り替え"
+            "value": "キーボードショートカット"
           }
         }
       }
     },
-    "Shortcuts work in any app. Click Change, then press the new keys.": {
+    "Double-tap and hold": {
       "localizations": {
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "ショートカットは、どのアプリを使っているときでも効きます。「変更」を押してから、新しいキーを押してください。"
+            "value": "ダブルタップホールド"
+          }
+        }
+      }
+    },
+    "Shortcut": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ショートカット"
+          }
+        }
+      }
+    },
+    "Press it once to start, and again to leave.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1回押すと入り、もう1回押すと出ます。"
+          }
+        }
+      }
+    },
+    "Double-tap, keep your finger down for this long, and precision mode starts. Lift to leave.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ダブルタップして、この時間だけ指を置いたままにすると、精密モードに入ります。指を離すと出ます。"
+          }
+        }
+      }
+    },
+    "If you use double-tap to drag (Dragging or Drag Lock in the trackpad settings), the two clash. Use the keyboard shortcut instead. With tap to click, the first tap also clicks.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ダブルタップでドラッグする設定(トラックパッドの「ドラッグ」や「ドラッグロック」)を使っている場合は、操作がぶつかります。キーボードショートカットを使ってください。また「タップでクリック」を使っていると、1回目のタップはクリックになります。"
+          }
+        }
+      }
+    },
+    "GlideCursor is on. You can turn it off from the menu bar icon.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GlideCursor はオンになっています。メニューバーのアイコンからオフにできます。"
+          }
+        }
+      }
+    },
+    "On/off shortcut": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "オン・オフのショートカット"
           }
         }
       }

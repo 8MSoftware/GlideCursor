@@ -79,6 +79,8 @@ enum ScreenshotMode {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             NSApp.activate()
             menuBar?.showPopover()
+            // 撮影ではウィンドウをアクティブにする(スイッチやチェックが差し色で描かれる)
+            menuBar?.popover.contentViewController?.view.window?.makeKey()
         }
         // -GCShotPath <file.png> を付けたら、開いたポップオーバーを画像に書き出して終了する
         #if DEBUG

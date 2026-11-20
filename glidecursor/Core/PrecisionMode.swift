@@ -38,6 +38,7 @@ final class PrecisionMode: ObservableObject {
         remainder = .zero
         source = src
         isOn = true
+        CursorBadge.shared.show(entering: true)
     }
 
     func exit() {
@@ -45,6 +46,7 @@ final class PrecisionMode: ObservableObject {
         isOn = false
         source = nil
         position = nil
+        CursorBadge.shared.show(entering: false)
     }
 
     // MARK: ダブルタップホールド(MT スレッド)
@@ -60,7 +62,7 @@ final class PrecisionMode: ObservableObject {
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }
             let s = SettingsManager.shared
-            guard s.precisionDoubleTapHold, !self.isOn else { return }
+            guard s.precisionHoldActive, !self.isOn else { return }
             let work = DispatchWorkItem { [weak self] in
                 // 待っているあいだに指が離れていなければ入る
                 guard let self, MultitouchManager.shared.fingers(forRegID: regID) ?? 0 > 0 else { return }

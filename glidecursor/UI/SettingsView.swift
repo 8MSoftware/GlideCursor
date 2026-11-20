@@ -10,7 +10,7 @@ struct SettingsView: View {
     @State private var launchAtLogin = LaunchAtLogin.isEnabled
 
     /// 設定のタブ。最後に開いていたタブを覚える
-    enum Tab: String, CaseIterable { case glide, precision, shortcuts }
+    enum Tab: String, CaseIterable { case glide, precision }
     @AppStorage("v2.settingsTab") private var tab: Tab = .glide
 
     var body: some View {
@@ -28,8 +28,7 @@ struct SettingsView: View {
 
             Picker("", selection: $tab) {
                 Text("Glide").tag(Tab.glide)
-                Text("Precision").tag(Tab.precision)
-                Text("Shortcuts").tag(Tab.shortcuts)
+                Text("Precision mode").tag(Tab.precision)
             }
             .pickerStyle(.segmented)
             .labelsHidden()
@@ -38,7 +37,6 @@ struct SettingsView: View {
             switch tab {
             case .glide: glideTab
             case .precision: precisionTab
-            case .shortcuts: shortcutsTab
             }
 
             Divider()
@@ -136,6 +134,11 @@ struct SettingsView: View {
 
             switchRow("Ignore the tap that stops a glide", isOn: $settings.suppressClickOnStop,
                       note: "With tap to click, touching the trackpad to stop a glide won't also click.")
+
+            Divider()
+
+            shortcutRow("On/off shortcut", enabled: $settings.isGlobalShortcutEnabled,
+                        keyCode: settings.globalShortcutKeyCode, modifiers: settings.globalShortcutModifiers, precision: false)
         }
     }
 
@@ -143,49 +146,54 @@ struct SettingsView: View {
 
     private var precisionTab: some View {
         VStack(alignment: .leading, spacing: 14) {
-            Text("Slows the cursor down for fine positioning. Start it with the shortcut (see Shortcuts), or with a double-tap and hold.")
-                .font(.caption)
-                .foregroundColor(.secondary)
-                .fixedSize(horizontal: false, vertical: true)
+            switchRow("Use precision mode", isOn: $settings.precisionEnabled,
+                      note: "Slows the cursor down for fine positioning, for example in a drawing app. No glide while it is on.")
 
-            slider("Precision speed", value: $settings.precisionFactor, in: 0.1...0.9, step: 0.1,
-                   format: String(format: "×%.1f", settings.precisionFactor),
-                   note: "In precision mode, the cursor moves this much slower. No glide while it is on.")
+            if settings.precisionEnabled {
+                slider("Precision speed", value: $settings.precisionFactor, in: 0.1...0.9, step: 0.1,
+                       format: String(format: "×%.1f", settings.precisionFactor),
+                       note: "The cursor moves this much slower in precision mode.")
 
-            Divider()
+                Divider()
 
-            switchRow("Double-tap and hold", isOn: $settings.precisionDoubleTapHold,
-                      note: "Double-tap, keep your finger down, and precision mode starts. Lift to leave. With tap to click, the first tap also clicks.")
-            if settings.precisionDoubleTapHold {
-                slider("Hold for", value: $settings.precisionHoldDelay, in: 0...3, step: 0.1,
-                       format: String(format: "%.1f s", settings.precisionHoldDelay),
-                       note: "How long to keep your finger down before precision mode starts.")
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("How to start").font(.subheadline).foregroundColor(.secondary)
+                    Picker("", selection: $settings.precisionTrigger) {
+                        Text("Keyboard shortcut").tag(SettingsManager.PrecisionTrigger.shortcut)
+                        Text("Double-tap and hold").tag(SettingsManager.PrecisionTrigger.hold)
+                    }
+                    .pickerStyle(.radioGroup)
+                    .labelsHidden()
+                }
+
+                switch settings.precisionTrigger {
+                case .shortcut:
+                    shortcutRow("Shortcut", enabled: nil, keyCode: settings.precisionKeyCode,
+                                modifiers: settings.precisionModifiers, precision: true)
+                    Text("Press it once to start, and again to leave.")
+                        .font(.caption).foregroundColor(.secondary)
+                case .hold:
+                    slider("Hold for", value: $settings.precisionHoldDelay, in: 0...3, step: 0.1,
+                           format: String(format: "%.1f s", settings.precisionHoldDelay),
+                           note: "Double-tap, keep your finger down for this long, and precision mode starts. Lift to leave.")
+                    Label("If you use double-tap to drag (Dragging or Drag Lock in the trackpad settings), the two clash. Use the keyboard shortcut instead. With tap to click, the first tap also clicks.",
+                          systemImage: "exclamationmark.triangle")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
             }
         }
     }
 
-    // MARK: ショートカット
-
-    private var shortcutsTab: some View {
-        VStack(alignment: .leading, spacing: 14) {
-            shortcutRow("Turn GlideCursor on or off", enabled: $settings.isGlobalShortcutEnabled,
-                        keyCode: settings.globalShortcutKeyCode, modifiers: settings.globalShortcutModifiers, precision: false)
-            Divider()
-            shortcutRow("Precision mode on or off", enabled: $settings.precisionShortcutEnabled,
-                        keyCode: settings.precisionKeyCode, modifiers: settings.precisionModifiers, precision: true)
-            Text("Shortcuts work in any app. Click Change, then press the new keys.")
-                .font(.caption)
-                .foregroundColor(.secondary)
-        }
-    }
-
     /// ショートカット1つ分の行:名前とスイッチ / キーと変更ボタン
-    private func shortcutRow(_ title: LocalizedStringKey, enabled: Binding<Bool>, keyCode: Int, modifiers: Int, precision: Bool) -> some View {
-        VStack(alignment: .leading, spacing: 6) {
+    private func shortcutRow(_ title: LocalizedStringKey, enabled: Binding<Bool>?, keyCode: Int, modifiers: Int, precision: Bool) -> some View {
+        let on = enabled?.wrappedValue ?? true
+        return VStack(alignment: .leading, spacing: 6) {
             HStack {
                 Text(title)
                 Spacer()
-                Toggle("", isOn: enabled).toggleStyle(.switch).controlSize(.small).labelsHidden()
+                if let enabled { Toggle("", isOn: enabled).toggleStyle(.switch).controlSize(.small).labelsHidden() }
             }
             HStack {
                 Text(shortcutString(keyCode: keyCode, modifiers: modifiers))
@@ -194,11 +202,11 @@ struct SettingsView: View {
                     .padding(.vertical, 2)
                     .background(Color.gray.opacity(0.15))
                     .cornerRadius(6)
-                    .opacity(enabled.wrappedValue ? 1 : 0.4)
+                    .opacity(on ? 1 : 0.4)
                 Spacer()
                 Button(isRecording && recordingPrecision == precision ? "Press Key…" : "Change") { startRecording(precision: precision) }
                     .font(.caption)
-                    .disabled(isRecording || !enabled.wrappedValue)
+                    .disabled(isRecording || !on)
             }
         }
     }
