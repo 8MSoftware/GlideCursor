@@ -59,7 +59,7 @@ struct SettingsView: View {
                                 .frame(width: 20)
                                 .foregroundColor(device.connected ? .primary : .secondary)
                             VStack(alignment: .leading, spacing: 0) {
-                                Text(device.name).lineLimit(1)
+                                Text(device.displayName).lineLimit(1)
                                 if !device.connected {
                                     Text("Not connected").font(.caption2).foregroundColor(.secondary)
                                 }

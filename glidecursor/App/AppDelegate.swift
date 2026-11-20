@@ -20,6 +20,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let settings = SettingsManager.shared
         _ = DeviceRegistry.shared
         menuBarManager = MenuBarManager()
+        ScreenshotMode.apply(menuBar: menuBarManager)
 
         if !settings.hasLaunchedBefore {
             settings.isEnabled = false   // 初回は必ず OFF
