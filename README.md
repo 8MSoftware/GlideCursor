@@ -29,6 +29,19 @@ If you use tap to click, the tap you use to stop a glide is not turned into a cl
 
 ---
 
+## Precision Mode
+
+Slow the cursor down for fine positioning (×0.1–×0.9, default ×0.3), for example in a drawing app. No glide while it is on.
+Precision mode is off by default. Turn it on in the **Precision mode** tab, then choose one or more ways to start it:
+
+- **Keyboard shortcut** — press once to start, again to leave (default ⌃⌥G)
+- **Hold a modifier key** — slow only while you hold fn, ⌃, ⌥, ⇧ or ⌘ (default fn)
+- **Double-tap and hold** — double-tap, keep your finger down, and it starts; lift to leave. Clashes with double-tap dragging.
+
+A ring around the cursor shows when precision mode starts and ends.
+
+---
+
 ## Installation
 
 Download the `.pkg` installer from the **Releases** page and run it.
@@ -39,7 +52,7 @@ When launching GlideCursor for the first time:
 2. Click **Open System Settings**.
 3. Enable **Accessibility** permission for GlideCursor.
 4. Return to the app and click **Get Started**.
-5. Turn GlideCursor **ON** from the menu bar.
+5. GlideCursor is on from the first launch. You can turn it off from the menu bar.
 
 Requires macOS 14 Sonoma or later.
 
@@ -47,17 +60,19 @@ Requires macOS 14 Sonoma or later.
 
 ## Settings
 
-Click the GlideCursor icon in the menu bar to adjust:
+Click the GlideCursor icon in the menu bar. The settings have two tabs.
 
+**Glide**
 - **Glide on these devices** — turn gliding on or off per device
-- **Glide length** — how long the cursor keeps gliding after you lift your finger
-- **Speed** — multiplier applied to the speed at the moment you lift your finger
-- **Flick threshold** — lifting slower than this does not glide
-- **Max speed** — caps the starting speed of a glide
+- **Glide length**, **Speed**, **Flick threshold**, **Max speed**
 - **Ignore the tap that stops a glide**
-- **Global Shortcut** — toggle GlideCursor on/off with a key combination (customizable)
+- **On/off shortcut** — toggle GlideCursor with a key combination (default ⌃G)
 
-The gear menu has **Language** (follow the system, Japanese, or English), **Open at Login**, the website, and **Quit**.
+**Precision mode** — see above.
+
+The gear menu has **Language**, **Open at Login**, **Donate…**, the website, and **Quit**.
+
+GlideCursor is free. From the second launch it shows a short note asking for a donation; tick "Don't show this again" to stop it.
 
 ---
 
