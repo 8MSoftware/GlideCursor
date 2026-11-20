@@ -134,7 +134,7 @@ struct SettingsView: View {
                     .toggleStyle(.switch)
                     .controlSize(.small)
                 if settings.precisionDoubleTapHold {
-                    slider("Hold for", value: $settings.precisionHoldDelay, in: 0.1...1.0, step: 0.1,
+                    slider("Hold for", value: $settings.precisionHoldDelay, in: 0...3, step: 0.1,
                            format: String(format: "%.1f s", settings.precisionHoldDelay),
                            note: "Double-tap, keep your finger down, and precision mode starts after this time. Lift to leave. With tap to click, the first tap also clicks.")
                 }

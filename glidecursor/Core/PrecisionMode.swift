@@ -68,7 +68,8 @@ final class PrecisionMode: ObservableObject {
             }
             self.holdWork?.cancel()
             self.holdWork = work
-            DispatchQueue.main.asyncAfter(deadline: .now() + s.precisionHoldDelay, execute: work)
+            // 0 秒なら、2回目に触れた時点ですぐに入る
+            DispatchQueue.main.asyncAfter(deadline: .now() + max(s.precisionHoldDelay, 0.01), execute: work)
         }
     }
 
@@ -108,6 +109,11 @@ final class PrecisionMode: ObservableObject {
         event.location = next
         event.setIntegerValueField(.mouseEventDeltaX, value: Int64(ix))
         event.setIntegerValueField(.mouseEventDeltaY, value: Int64(iy))
+        // イベントの位置を書き換えるだけでは、カーソルそのものは動きを縮めない(試して確かめた)。
+        // カーソルを縮めた位置へ直接移す。移したあとは、しばらく入力が止まる仕様なので、
+        // 直後に「マウスとカーソルを結び直す」ことで、その待ちをなくす。
+        CGWarpMouseCursorPosition(next)
+        CGAssociateMouseAndMouseCursorPosition(1)
     }
 
     private static func clamp(_ p: CGPoint, near prev: CGPoint) -> CGPoint {
